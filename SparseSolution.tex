@@ -1,0 +1,490 @@
+\input{Common}
+
+\Chapter{多すぎるのは良くないことだ --- 劣決定問題のスパース解 ---}
+
+{\bf 劣決定問題}（underdetermined problem）が解ければ，
+例えばこんなことができるぞ．
+%\begin{figure}[hb]
+\setlength{\unitlength}{1cm}
+\begin{center}
+%\fbox{
+\begin{picture}(17,18.2)
+\put(0,-3){\includegraphics[width=17cm]{cs_applications.eps}}
+\end{picture}%}
+\end{center}
+% \caption{What preserved after random projection.}
+%\label{fig:CS applications}
+%\end{figure}
+
+\clearpage
+
+
+\Section{劣決定問題のスパース正則化}
+
+\paragraph{前回までのあらすじ}
+
+\begin{enumerate}
+\item
+線形連立方程式は，行列とベクトルを使って
+\begin{equation}
+\mtr A\vec x=\vec b
+\label{eq:linear system A}
+\end{equation}
+と書き表せる．
+$\vec x\in\mathbb{R}^n$は$n$個の未知数を成分に持つ$n$次元ベクトルである．
+$\mtr A\in\mathbb{R}^{m\times n}$は，
+$m$本の方程式における未知数の係数を要素に持つ$m\times n$行列である．
+$\vec b\in\mathbb{R}^m$は，$m$個の定数を成分に持つ$m$次元ベクトルである．
+
+\item
+連立方程式(\ref{eq:linear system A})は，
+行列$\mtr A$の$n$本の列ベクトル$\vec a^{(j)}$ ($j=1,\dots,n$)を
+基底に使って$\vec b$を合成するための線形結合係数を求める問題であると解釈できる．
+なぜならば，
+\begin{equation}
+ \vec b=\mtr A\vec x
+=\smatrix{\normalsize}{ccc}{\vec a^{(1)} & \dots & \vec a^{(n)}}
+\smatrix{\normalsize}{c}{x_1\\ \vdots\\ x_n}
+=x_1\vec a^{(1)}+\cdots+x_n\vec a^{(n)}
+\label{eq:linear combination A}
+\end{equation}
+と表せるからである．
+
+\item
+未知数の数よりも方程式の数が少ない連立方程式は，無数の解を持ち，
+解をひとつに決められない劣決定問題である．
+%それ以上の方程式が手に入らないとき，
+%無数にある解の候補から，ひとつの解を合理的に選ぶ方法はあるだろうか．
+方程式の他に，解に関する情報や事前知識があるとき，
+それを使って解をひとつに限定することを正則化と呼ぶ．
+\end{enumerate}
+
+方程式が足りなくても，正則化で正解が得られるならば，
+$n$個の未知数について$m=n$本の方程式を用意するのは無駄ではなかろうか．
+どのような方程式の解について事前知識がある場合に，
+方程式が足りなくても正解が得られることを保証できるだろうか．
+
+
+
+
+\paragraph{スパース解}
+
+「未知数はゼロになるものが多い」という事前知識は，非常に重要な正則化になる．
+無数に存在する解のうち，非ゼロとなる未知数の数が最も少ない
+（ゼロになる未知数がの数が最も多い）解を求める問題は，
+次のような最小化問題として定式化される．
+\begin{equation}
+ \min_{\small\vec x}\|\vec x\|_0\quad\mbox{ subject to }\quad \mtr A\vec x=\vec b
+\label{eq:sparse solution}
+\end{equation}
+%\begin{equation}
+% \min\; \#\{i|x_i\neq 0\}\quad\mbox{ subject to }\quad \mtr A\vec x=\vec b
+%\label{eq:sparse solution}
+%\end{equation}
+この記述は，
+「ベクトル$\vec x$の成分のうち，ゼロでないものの個数$\|\vec x\|_0$の最小値を求めよ．
+ただし，$\vec x$は$\mtr A\vec x=\vec b$を満たすものとする．」
+という意味である．
+$\|\vec x\|_0$は，$\vec x$の$\ell_0$ノルムと呼ばれ，
+$\vec x$の非ゼロ成分の個数を表す
+\footnote{%
+これは便宜上の記述である（演習問題\ref{ex:l0 norm}）．
+正確には下記のように記述すべきである．
+\[
+ \min_{\scriptsize\vec x}\lim_{p\rightarrow 0}\|\vec x\|_p^p\quad\mbox{subject to}\quad \mtr A\vec x=\vec b
+\]
+}．
+すなわち，$\|\vec x\|_0=|\{i|x_i\neq 0\}|$
+（ゼロでない成分の集合の要素の数）と定義する．
+
+式(\ref{eq:sparse solution})の解を{\bf スパース解}（sparse solution）と呼ぶ．
+また，ベクトルの非ゼロ成分の数が$k$個以下の場合，
+そのベクトルは$k$スパース（$k$-sparse）であると言う．
+式(\ref{eq:linear combination A})のように，
+$\vec x$は線形結合係数を成分に持つベクトルであるから，
+スパース解の非ゼロ成分に対応する$\mtr A$の列ベクトルのみによって
+ベクトル$\vec b$が簡潔に表現される．
+%これを，$\vec b$のスパース表現と呼ぶ．
+%スパース解は，$\mtr A$の列ベクトルのうち，
+%なるべく少ない本数で$\vec b$を合成する問題の解である．
+よって，式(\ref{eq:sparse solution})の$\ell_0$最小化問題は，
+$\mtr A$の列から最少の本数で$\vec b$を合成できる
+組合せを探すというNP困難な「組合せ最適化問題」である．
+また，式(\ref{eq:sparse solution})の解は必ずしも一意ではない．
+
+
+数学では，
+関数$f(x)$の値がゼロにならないような$x$の集合を，
+その関数の{\bf 台}（support）と呼ぶ．
+同様に，ベクトルの非ゼロ成分の番号（添え字）の集合を，ベクトルの台と呼ぶ．
+$1$から$n$までの整数の集合を$[n]=\{1,\dots,n\}$と表すならば，
+$n$次元ベクトルの台$S$は集合$[n]$の部分集合である（$S\subset[n]$）．
+また，非ゼロ成分の個数はこの集合の要素の数$|S|$である．
+\begin{description}
+\item[例]
+$\vec x=[0,2,0,0,1]^\top$の台は$S=\{2, 5\}$である（$x_2\neq 0,x_5\neq 0$）．
+もちろん，$S\subset[5]=\{1,2,3,4,5\}$が成り立つ．
+\end{description}
+
+本書では，$n$本の列を持つ行列$\mtr A\in\mathbb{R}^{m\times n}$について，
+番号の集合を$T\subset[n]$とするとき，
+$T$で指定した$\mtr A$の列を抜き出して作った$m\times |T|$行列を
+$\mtr A_T$と記すことにする．
+同様に，
+$T$で指定した番号の成分を$\vec x$から抜き出して作った$|T|$次元ベクトルを
+$\vec x_T$と記す．
+\begin{description}
+\item[例]
+$\mtr A=\smatrix{\small}{ccc}{1 & 1 & 1\\ 1 & 2 & 3}$，$\vec x=[0,1,2]^\top$，
+$T=\{1, 3\}$のとき，
+$\mtr A_T=\smatrix{\small}{cc}{1 & 1\\ 1 & 3}$，
+$\vec x_T=\smatrix{\small}{c}{0\\ 2}$である．
+\end{description}
+
+
+
+\Section{スパース解が一意になる条件}
+
+スパース解を求める方法を考える前に，
+式(\ref{eq:sparse solution})のスパース解が
+複数存在せず一意に定まる条件は何なのか知っておきたい．
+式(\ref{eq:sparse solution})の$k$スパース解の一意性は，
+$\mtr A$の列ベクトルの組合せの線形独立性に依存している．
+
+
+\paragraph{単純な例で考察しよう}
+
+次のような$4\times 5$の行列で考えてみよう．
+\begin{equation}
+\mtr A\msup{n}=\smatrix{\small}{ccccc}
+{
+1 & 0 & 1 & 0 & 0\\
+0 & 1 & 1 & 0 & 0\\
+0 & 1 & 1 & 1 & 0\\
+0 & 0 & 1 & 0 & 1}\quad\mbox{and}\quad
+\mtr A\msup{u}=\smatrix{\small}{ccccc}
+{
+1 & 0 & 1 & 0 & 0\\
+0 & 1 & 2 & 0 & 0\\
+0 & 1 & 1 & 1 & 0\\
+0 & 0 & 1 & 0 & 1}.
+\label{eq:Spark4Spark5}
+\end{equation}
+これらはフルランクである（$\rank\mtr A\msup{n}=4$，$\rank\mtr A\msup{u}=4$）．
+行列の列の組合せを見てみよう．4本の列を選ぶとする．
+行列$\mtr A\msup{n}$には，線形独立にならない4本の列の組合せが存在する．
+第1，2，3，5列という組合せである（第1，2，5列を足し合わせると第3列が作れてしまう）．
+一方，$\mtr A\msup{u}$は，どの4本の列を組合せても必ず線形独立になる．
+
+まず，$\mtr A=\mtr A\msup{n}$，$\vec b=[1,1,1,0]^\top$として，
+式(\ref{eq:sparse solution})のスパース解を見つけてみよう．
+解$\vec x$は，式(\ref{eq:linear combination A})のように
+$\vec b$を合成するための線形結合係数なので，
+スパース解の台は合成に使用する$\mtr A\msup{n}$の列に対応する．
+$\mtr A\msup{n}$の$n=5$本の列から線形独立な$m=4$本のベクトルを選べば，
+どんな4次元ベクトルも合成できる．
+${}_5$C${}_4=5$通りの列の組合せのうち，
+線形独立な列ベクトルの組合せは$4$通りある．
+$T=\{1,2,3,4\}$，$\{1,2,4,5\}$，$\{1,3,4,5\}$，$\{2,3,4,5\}$である．
+これら$4$通りの組合せから$4$通りの解が得られる\footnote{%
+例えば，$T=\{2,3,4,5\}$ならば，
+$\mtr A\msup{n}$の第1列を使用しないから$x_1=0$である．
+$\mtr A_T\msup{n}\vec x_T=\vec b$の方程式から
+$\vec x_T=[x_2,x_3,x_4,x_5]^\top=[0,1,0,-1]^\top$を得る．}．
+%\footnote{%
+%$\mtr A_T\vec x_T=\vec b$という4通りの方程式が作れる．
+%それぞれの方程式から，$T$で指定された$\vec x$の成分が求まる．
+%$T$以外の列は使っていないので，それ以外の$\vec x$の成分は0である．
+%}．
+\begin{equation}
+ \vec x=
+\smatrix{\small}{r}{1 \\ 1 \\ 0 \\ 0 \\ 0},\quad
+\smatrix{\small}{r}{1 \\ 1 \\ 0 \\ 0 \\ 0},\quad
+\smatrix{\small}{r}{0 \\ 0 \\ 1 \\ 0 \\ -1},\quad
+\smatrix{\small}{r}{0 \\ 0 \\ 1 \\ 0 \\ -1}
+\end{equation}
+この結果から，解はスパースであるが，2種類存在することがわかる．
+ゆえに，$\mtr A\msup{n}$は$\vec b$に対して一意のスパース解を持たない．
+$\vec b$を簡潔に合成するためには，
+$\mtr A\msup{n}$の第1列と第2列の組合せでもよいし，
+第3列と第5列の組合せでもよいということを2種類のスパース解が示している．
+つまり，$\mtr A\msup{n}$の過完備基底のように，
+互いに代用可能な基底ベクトルの組合せが存在するとき，解が一意にならない．
+
+
+
+次に，$\mtr A=\mtr A\msup{u}$，$\vec b=[1,1,1,0]^\top$として，
+同様にスパース解を見つけててみよう．
+$4$本選ぶ列の組合せは${}_5$C${}_4=5$通りあるが，どれも線形独立になる．
+$T=\{1,2,3,4\}$，$\{1,2,3,5\}$，$\{1,2,4,5\}$，$\{1,3,4,5\}$，$\{2,3,4,5\}$
+の$5$通りの組合せから，それぞれ次のような解が得られる．
+\begin{equation}
+\vec x=
+\smatrix{\small}{r}{1 \\ 1 \\ 0 \\ 0 \\ 0},\quad
+\smatrix{\small}{r}{1 \\ 1 \\ 0 \\ 0 \\ 0},\quad
+\smatrix{\small}{r}{1 \\ 1 \\ 0 \\ 0 \\ 0},\quad
+\smatrix{\small}{r}{0.5 \\ 0 \\ 0.5 \\ 0.5 \\ -0.5},\quad\mbox{and}\quad
+\smatrix{\small}{r}{0 \\ -1 \\ 1 \\ 1 \\ -1}
+\label{eq:solutions to A5}
+\end{equation}
+ゆえに，$\mtr A\msup{u}$は$\vec b$に対して
+一意の$k=2$スパース解$\vec x=[1,1,0,0,0]^\top$を持つ．
+$\mtr A\msup{u}$の第1列と第2列の組合せだけが$\vec b$を簡潔に合成できる．
+$\mtr A\msup{u}$の過完備基底は，
+互いに代用可能な基底ベクトルの組合せが存在しないので，解が一意になる．
+
+
+
+\Subsection{スパース解が一意になるための十分条件}
+
+\paragraph{スパーク}
+\begin{definition}
+行列$\mtr A$から，
+線形独立に{\bf ならない}列ベクトルをなるべく少なく選び出したとき，
+その列ベクトルの本数を$\mtr A$の{\bf スパーク}（spark）と呼び，
+$\spark\mtr A$と記す．
+\begin{equation}
+ \spark\mtr A=\min_{\small\vec x\neq\vec 0}\|\vec x\|_0
+\quad\mbox{subject to}\quad\mtr A\vec x=\vec 0.
+\end{equation}
+\end{definition}
+\begin{theorem}
+\label{th:uniqueness}
+$\spark\mtr A>2k$ならば，式(\ref{eq:sparse solution})の$k$スパース解は一意である．
+\end{theorem}
+\noindent
+この証明は演習問題\ref{ex:uniqueness}とする．
+
+スパークはランクに似ているが混同しないように注意されたい．
+例えば，式(\ref{eq:Spark4Spark5})の行列$\mtr A\msup{n}$と$\mtr A\msup{u}$は，
+ランクがどちらも$\rank\mtr A\msup{n}=\rank\mtr A\msup{u}=4$であるが，
+スパークは$\spark\mtr A\msup{n}=4$，$\spark\mtr A\msup{u}=5$である．
+ただし，スパークを求める問題は，線形独立にならない列の組合せを探す
+組合せ問題である
+（演習問題\ref{ex:spark is comb}）．
+定理\ref{th:uniqueness}から，
+$\mtr A\msup{u}$の$k=2$スパース解は一意であると言える．
+
+
+
+\paragraph{制限等長性}
+\begin{definition}
+任意の$k$スパースなベクトル$\vec x$について不等式
+\begin{equation}
+(1-\delta)\|\vec x\|_2^2\leq\|\mtr A\vec x\|_2^2\leq(1+\delta)\|\vec x\|_2^2.
+\label{eq:RIP}
+\end{equation}
+を満たす定数$\delta<1$が存在するとき，
+行列$\mtr A\in\mathbb{R}^{m\times n}$は$k$次の
+{\bf 制限等長性}（restricted isometry property; RIP）を持つという．
+この性質を$(\delta,k)$-RIPと表す．
+等価な定義として，
+$k$個以下の要素を持つ任意の部分集合$S\subset[n]$ ($|S|\leq k$)について不等式
+\begin{equation}
+ \|\mtr A_S^\top\mtr A_S-\mtr I_k\|_2\leq\delta
+\end{equation}
+が成り立つとき，行列$\mtr A$は$(\delta,k)$-RIPの制限等長性を持つという．
+ここで，$\mtr I_k$は$k\times k$の単位行列である．
+\end{definition}
+言い換えると，$(\delta,k)$-RIP条件を満たす行列$\mtr A$による線形写像は，
+$k$スパースな任意のベクトルのノルムを近似的に維持する．
+この性質は，ランダム射影のそれと同様である．
+実際，$k$スパースなベクトルの幾何（ノルムや距離）を
+維持するようにJLの補題\cite{JL84}を適用すると，
+$m\times n$のランダム行列$\mtr A$について
+\begin{equation}
+ m> m_0\approx\frac{1}{\delta^2}k\log\frac{n}{k}
+\label{eq:random projection with RIP}
+\end{equation}
+が成立するならば，
+$\mtr A$は$(\delta,k)$-RIP条件を満たす（演習問題\ref{ex:JL RIP}）．
+また，もし$\mtr A$が$(\delta,2k)$-RIP条件を満たすならば，
+式(\ref{eq:sparse solution})の$k$スパース解が一意であることを
+簡単に確認できる（演習問題\ref{ex:uniqueness by RIP}）．
+
+更に，下記の定理は，
+凸最適化問題を解くことで一意のスパース解が得られることを保証している．
+\begin{theorem}[\cite{Candes06b,Candes08RIP}]
+\label{th:l0l1 equivalence}
+$\mtr A$が$\delta<\sqrt{2}-1$の$(\delta,2k)$-RIP条件を満たすならば，
+式(\ref{eq:sparse solution})の$k$スパース解は一意であり，
+下記の$\ell_1$最小化問題の解と一致する．
+\begin{equation}
+ \min\|\vec x\|_1\quad\mbox{ subject to }\quad \mtr A\vec x=\vec b
+\label{eq:l1 minimization}
+\end{equation}
+\end{theorem}
+この定理\ref{th:l0l1 equivalence}において，
+$\delta<\sqrt{2}-1$の$(\delta,2k)$-RIPは，
+スパース解が一意かつ$\ell_1$最小化の解と一致するための十分条件である．
+要するに，どんな$2k$スパースなベクトルに行列$\mtr A$を乗じても，
+ノルムが高々$1\pm\delta$倍しか伸縮しないという性質を$\mtr A$が持っているならば，
+$k$スパース解$\vec x$は一意で，しかも$\ell_1$最小化問題の解とも一致する．
+$\ell_1$最小化は解が必ず一意になる凸問題であり，
+最小化のアルゴリズムも充実している．
+
+ただし，定理\ref{th:l0l1 equivalence}の
+RIP条件を確認する計算も組合せの手間数が必要で現実的ではない．
+$|S|\leq 2k$のあらゆる台について$\mtr A_S^\top\mtr A_S$の
+最小固有値と最大固有値が$1\pm\delta$以内に
+収まることを確認する必要があるからである．
+台が$S$のベクトル$\vec x$について
+$\|\mtr A\vec x\|_2^2=\vec x_S^\top\mtr A_S^\top\mtr A_S\vec x_S$と書けるので，
+$\mtr A$が$\vec x$を何倍に収縮させるかは
+$\mtr A_S^\top\mtr A_S$の最小固有値と最大固有値で表される．
+
+
+
+\Section{まとめ}
+
+線形方程式の数が未知数の数より少なくても，
+解がスパースならば一意な解が存在する．
+方程式$\mtr A\vec x=\vec b$は，
+与えられたベクトル$\vec b$を行列$\mtr A$の列ベクトルの線形結合で
+合成するための線形結合係数を求める問題である．
+解がスパースであるということは，
+$\mtr A$の列を数本組合せるだけで$\vec b$を合成できるという意味である．
+スパース解$\vec x$の非ゼロ成分は，
+$\vec b$の合成に使用する$\mtr A$の列の組合せを表している．
+スパース解が一意である（その他にスパース解がない）ということは，
+$\mtr A$の数本の列の組合せで$\vec b$を線形合成できたときに，
+それ以下の本数では$\vec b$を合成できる組合せが他に見つからない
+ということである．
+つまり，方程式の係数を表す行列$\mtr A$の列ベクトルが
+互いに線形結合で表し難い性質があるならば，
+ある列の組合せで$\vec b$を合成できたときに，
+その代用になる列の組合せが存在せず，解が一意になり易いと言える．
+この性質を定量的に表しているのが$\spark\mtr A$や
+制限等長性$(\delta,k)$-RIPである．
+特に，$\mtr A$がランダム行列の場合はスパース解が一意になり易い．
+%
+また，証明の解説は省略したが，定理\ref{th:l0l1 equivalence}は，
+解の一意性だけでなく，$\ell_0$最小解と$\ell_1$最小解の一致性も
+保証している．
+
+定理\ref{th:uniqueness}と定理\ref{th:l0l1 equivalence}は，
+非ゼロ成分の数よりも無闇にたくさんの方程式は無くても解が求まることを示している．
+ベクトル$\vec b$の各成分は，$\mtr A$の行ベクトルと$\vec x$の内積によって
+$\vec x$の特徴を測った観測値であると見なせる．
+方程式の本数が観測値の数であるから，
+解$\vec x$を得るために無闇に何度も$\vec x$を観測しなくてもよいとも言える．
+この性質を活かすために，更に次の点について学ぶべきであろう．
+\begin{itemize}
+ \item $\mtr A$と$\vec b$からスパース解$\vec x$を効率的に求めるアルゴリズムは？
+ \item $\vec b$をスパース表現できる$\mtr A$とは？
+\end{itemize}
+
+
+
+
+%The more knowledge used for describing the target,
+%the less concise the description is.
+
+%Theorem \ref{th:uniqueness} and Theorem \ref{th:l0l1 equivalence}
+
+
+
+
+
+\Section{演習問題}
+\begin{enumerate}
+\item
+式(\ref{eq:Spark4Spark5})の$\mtr A\msup{u}$について，
+$T=\{1,2,4,5\}$のとき，$\mtr A_T\msup{u}$を書き表せ．
+また，$\vec b=\vec [1,1,1,0]^\top$のとき，
+方程式$\mtr A_T\msup{u}\vec x_T=\vec b$の解
+が$\vec x_T=[1,1,0,0]^\top$であることを示せ．
+この解は，式(\ref{eq:solutions to A5})の3番目の解である．
+MATLABを使って，他の解も同様に確認せよ．\\
+ヒント：
+次のようなMATLABコードを試してみよ．
+\begin{lstlisting}
+A=[1 0 1 0 0; 0 1 2 0 0; 0 1 1 1 0; 0 0 1 0 1];
+C=combnk(1:5,4)
+T=C(3,:)
+A(:,T)
+help inv
+\end{lstlisting}
+
+\item
+\label{ex:l0 norm}
+$\|\vec x\|_p^p$（$\ell_p$ノルムの$p$乗）は，
+$p\in\mathbb{R}_+$がゼロに近づくと，$\vec x$の非ゼロ成分数に収束することを示せ．
+すなわち，次式を証明せよ．
+\begin{equation}
+\lim_{p\rightarrow 0+}\|\vec x\|_p^p
+=\lim_{p\rightarrow 0+}\sum_{i=1}^n|x_i|^p
+=\#\{i|x_i\neq 0\}
+\end{equation}
+なお，下記のように収束の様子をMATLABで観察できる．
+\begin{lstlisting}
+% xのlpノルムを計算する関数を定義する．
+lpnormp=@(x,p) sum(abs(x).^p);
+% 適当なベクトルについて，非ゼロ成分数へ収束するかどうか値を見る．
+lpnormp([1 2 0 3 0 0 4], 1)
+lpnormp([1 2 0 3 0 0 4], 0.5)
+lpnormp([1 2 0 3 0 0 4], 0.1)
+lpnormp([1 2 0 3 0 0 4], 0.01)
+\end{lstlisting}
+
+\item
+\label{ex:spark is comb}
+$\spark\mtr A$を求める問題は組合せ問題であることを説明せよ．\\
+ヒント：$\spark$を求めるMATLAB関数を下記に示す．
+関数として使うには，これをファイル名{\tt spark.m}として保存せよ．
+\begin{lstlisting}
+function sp = spark(A)
+
+[m, n] = size(A);
+% これを大きなサイズの行列に使わないこと．
+if m > 16, sp = -1; return; end
+
+for sp = 2:m,
+    C = combnk(1:n, sp);
+    nc = size(C, 1);
+    for i = 1:nc,
+        if rank(A(:,C(i,:))) < sp,
+            return;
+        end
+    end
+end
+sp = m + 1;
+end
+\end{lstlisting}
+
+
+\item
+\label{ex:uniqueness}
+定理\ref{th:uniqueness}を証明せよ．\\
+ヒント：対偶を証明せよ．
+$\mtr A\vec x=\vec b$について2つの異なる$k$スパース解があると仮定し，
+$\spark\mtr A\leq 2k$を示せ．
+
+\item\yeeks
+\label{ex:JL RIP}
+式(\ref{eq:random projection with RIP})を導出せよ．\\
+ヒント：スターリングの近似（Stirling's approximation）から
+${}_nC_k\leq(en/k)^k$が成り立つ．
+
+\item
+\label{ex:uniqueness by RIP}
+$\mtr A$が$(\delta,2k)$-RIPならば，
+式(\ref{eq:sparse solution})の$k$スパース解は一意であることを証明せよ．\\
+ヒント：背理法で証明できる．
+ふたつの異なる$k$スパース解$\vec x_1$と$\vec x_2$を仮定し，
+$2k$スパースのベクトル$(\vec x_1-\vec x_2)$にRIP条件を適用せよ．
+
+\item\yeeks
+式(\ref{eq:Spark4Spark5})の$\mtr A\msup{u}$は$k=2$の
+$(\delta,2k)$-RIP条件を満たすことを確認せよ．
+また，$\delta$の最小値を数値的に求めよ．
+\end{enumerate}
+
+
+%\newpage
+
+
+{\footnotesize
+\bibliography{mybib_cs,mybib_rp,mybib_sparse}
+}
+

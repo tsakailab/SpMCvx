@@ -1,0 +1,140 @@
+\usepackage{amsthm}
+
+\makeatletter
+
+\newcommand{\hsp}{\hspace{8pt}}
+\renewcommand{\prechaptername}{★\hsp}
+\renewcommand{\postchaptername}{}
+\usepackage[T1]{fontenc}
+\usepackage{titlesec}
+%\titleformat{\chapter}[hang]{\Large\bfseries}{\thechapter\hsp |\hsp}{0pt}{\Large\bfseries}
+\titleformat{\chapter}[hang]{\Large\bfseries}{}{0pt}{\Large\bfseries\prechaptername}
+\titlespacing*{\chapter}{0pt}{-12pt}{17pt}
+% the left, upper and lower spacing around the chapter heading, respectively.
+
+% force to start chapters on even-numbered pages
+\renewcommand*\cleardoublepage{\clearpage\if@twoside
+  \ifodd\c@page \hbox{}\newpage\if@twocolumn\hbox{}%
+  \newpage\fi\fi\fi}
+
+
+%startsection
+%第１引数：カウンタ名（sectionやsubsectionなど）
+%第２引数：レベル（深さ）。 section は１、subsection は2。
+%第3引数：見出し前に付加するインデント量。 \z@ は 0pt の省略形でインデント無しを指定する。
+%第4引数：絶対値が見出し前に付けられる空白量。負の場合見出しに続くテキストのインデントを抑制する。
+%第5引数：見出し後に付けられる垂直方向の空白量（負値の場合、見出し後に改行されず絶対値分だけ水平方向の空白がつくられる）
+%第6引数：見出しのスタイル
+\renewcommand{\section}{%
+\@startsection{section}{1}{\z@}%
+{1.5\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+{.5\Cvs \@plus.3\Cdp}%
+{\reset@font\normalsize\bf}}
+
+\def\subsection{\par	%changed by Shk
+ \@startsection {subsection}{2}{\z@}{1.5\Cvs \@plus.5\Cdp \@minus.2\Cdp}%
+ {.5\Cvs \@plus.3\Cdp}{\normalfont\protect\bfseries}}
+
+\def\appendix{\par
+% \newpage
+ \vspace{\baselineskip}
+ \setcounter{section}{0}
+ \setcounter{subsection}{0}
+ \setcounter{subsubsection}{0}
+ \setcounter{equation}{0}
+ \setcounter{figure}{0}
+ \setcounter{table}{0}
+ \def\thesection{付録\Alph{section}}
+ \def\thesubsection {\Alph{section}.\arabic{subsection}}
+ \def\thesubsubsection {\Alph{section}.\arabic{subsection}.\arabic{subsubsection}}
+ \def\theequation{\arabic{equation}}j
+ \def\thefigure{\arabic{figure}}
+ \def\thetable{\arabic{table}}}
+
+\long\def\@makecaption#1#2{
+\vskip 10pt
+\setbox\@tempboxa\hbox{%
+ {#1\hspace{1zw} #2}}%
+\ifdim \wd\@tempboxa >\hsize \unhbox\@tempboxa\par
+\else \hbox to\hsize{\hfil\box\@tempboxa\hfil}
+\fi\vskip -10pt}
+
+
+%\renewcommand{\refname}{参考文献} % jarticle、tarticleクラス
+\renewcommand{\bibname}{参考文献} % jbook、jreportクラス
+
+\renewenvironment{thebibliography}[1] %参考文献関係のパラメータ
+{\section*{\bibname\@mkboth{\bibname}{\bibname}}% ← ここのchapterってとこ
+\list{\@biblabel{\@arabic\c@enumiv}}%
+{\settowidth\labelwidth{\@biblabel{#1}}%
+\leftmargin\labelwidth
+\advance\leftmargin\labelsep
+\@openbib@code
+\usecounter{enumiv}%
+\let\p@enumiv\@empty
+\renewcommand\theenumiv{\@arabic\c@enumiv}}%
+\sloppy
+\clubpenalty4000
+\@clubpenalty\clubpenalty
+\widowpenalty4000%
+\sfcode`\.\@m}
+{\def\@noitemerr
+{\@latex@warning{Empty `thebibliography' environment}}%
+\endlist}
+
+
+
+% 脚注のインデントをそろえる
+\long\def\@makefntext#1{\parindent 1em\noindent 
+\@hangfrom{\hbox to 1.8em{\hss$^{\@thefnmark}$}}#1}
+
+\makeatother
+
+
+% ページレイアウト
+\setlength{\textwidth}{18cm}
+\setlength{\textheight}{25cm}
+\setlength{\oddsidemargin}{-1.1cm}
+\setlength{\evensidemargin}{-1.1cm}
+\setlength{\topmargin}{-1.5cm}
+\setlength{\columnsep}{1.5zw}
+
+
+
+
+%定理環境の設定 (using amsthm)
+
+% custom theorem style
+\newtheoremstyle{shkthm} % スタイル名
+{} % Space above (empty = `usual value')
+{} % Space below (empty = `usual value')
+{\normalfont} % 本文のフォント(\normalfont, \itshape, \bfseries)
+{} % 環境全体のインデント(empty = no indent, \parindent = para indent)
+{\bfseries} % 見出しのフォント
+{} % 見出し直後の句読点
+%{5pt plus 1pt minus 1pt} % 見出しの直後の空白(" " = normal interword space, \newline = 改行)
+{\newline} % 見出しの直後の空白(" " = normal interword space, \newline = 改行)
+{} % Thm head spec (can be left empty, meaning `normal')
+
+\theoremstyle{shkthm}
+\newtheorem{theorem}{定理}
+
+\theoremstyle{definition} % plain, definition, remark, ..
+\newtheorem{definition}{定義}
+\newtheorem{formula}{公式}
+\renewcommand{\proofname}{\textbf{証明}}
+
+\usepackage{julem}%下線マクロ
+
+\makeatletter
+\newcommand{\figcaption}[1]{\def\@captype{figure}\caption{#1}}
+\newcommand{\tblcaption}[1]{\def\@captype{table}\caption{#1}}
+\makeatother
+
+%
+% label reference macros.
+%
+\def\refeq#1{式(\ref{eq:#1})}
+\def\reffig#1{図\ref{fig:#1}}
+\def\refsec#1{\ref{sec:#1}}
+\def\refsubsec#1{\ref{subsec:#1}}

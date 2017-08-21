@@ -1,0 +1,76 @@
+\begin{thebibliography}{10}
+
+\bibitem{Chen98}
+S.S. Chen, D.L. Donoho, and M.A. Saunders, ``Atomic decomposition by basis
+  pursuit,'' {SIAM} J. Sci. Comput., vol.20, no.1, pp.33--61, 1998.
+
+\bibitem{Candes06b}
+E.J. Cand\`es, J.~Romberg, and T.~Tao, ``Stable signal recovery from incomplete
+  and inaccurate measurements,'' Comm. on Pure and Applied Math, vol.59, no.8,
+  pp.1207--1223, 2006.
+
+\bibitem{Candes08RIP}
+E.J. Cand\`es, ``The restricted isometry property and its implications for
+  compressed sensing,'' Comptes Rendus Mathematique, vol.346, no.9-10,
+  pp.589--592, May\ 2008.
+
+\bibitem{Tibshirani96}
+R.~Tibshirani, ``Regression shrinkage and selection via the lasso,'' Journal of
+  the Royal Statistical Society, Series B, vol.58, pp.267--288, 1996.
+
+\bibitem{Figueiredo07}
+M.A.T. Figueiredo, R.D. Nowak, and S.J. Wright, ``Gradient projection for
+  sparse reconstruction: Application to compressed sensing and other inverse
+  problems,'' IEEE Journal of Selected Topics in Signal Processing, vol.1,
+  no.4, pp.586--597, 2007.
+
+\bibitem{Donoho95}
+D.L. Donoho, ``De-noising by soft-thresholding,'' Information Theory, IEEE
+  Transactions on, vol.41, no.3, pp.613--627, 1995.
+
+\bibitem{Kim07}
+S.J. Kim, K.~Koh, M.~Lustig, S.~Boyd, and D.~Gorinevsky, ``An interior-point
+  method for large-scale $l_1$-regularized least squares,'' IEEE Journal on
+  Selected Topics in Signal Processing, vol.1, no.4, pp.606--617, 2007.
+
+\bibitem{SJWright09}
+S.J. Wright, R.D. Nowak, and M.A.T. Figueiredo, ``Sparse reconstruction by
+  separable approximation,'' IEEE Trans. Signal Processing, vol.57, no.7,
+  pp.2479--2493, 2009.
+
+\bibitem{Tomioka09}
+R.~Tomioka and M.~Sugiyama, ``Dual augmented {L}agrangian method for efficient
+  sparse reconstruction,'' IEEE Signal Processing Letters, vol.16, no.2,
+  pp.1067--1070, 2009.
+
+\bibitem{Daubechies04}
+I.~Daubechies, M.~Defrise, and C.~De~Mol, ``An iterative thresholding algorithm
+  for linear inverse problems with a sparsity constraint,'' Communications on
+  Pure and Applied Mathematics, vol.57, no.11, pp.1413--1457, 2004.
+
+\bibitem{Beck09}
+A.~Beck and M.~Teboulle, ``A fast iterative shrinkage-thresholding algorithm
+  for linear inverse problems,'' SIAM J. Img. Sci., vol.2, no.1, pp.183--202,
+  March\ 2009.
+
+\bibitem{Nesterov83}
+Y.~Nesterov, ``A method of solving a convex programming problem with
+  convergence rate o (1/k2),'' Soviet Mathematics Doklady, vol.27, no.2,
+  pp.372--376, 1983.
+
+\bibitem{Nesterov07}
+Y.~Nesterov, ``Gradient methods for minimizing composite objective function,''
+  2007.
+
+\bibitem{GabayMercier76}
+D.~Gabay and B.~Mercier, ``A dual algorithm for the solution of nonlinear
+  variational problems via finite element approximation,'' Computers and
+  Mathematics with Applications, vol.2, no.1, pp.17--40, 1976.
+
+\bibitem{Boyd11}
+S.~Boyd, N.~Parikh, E.~Chu, B.~Peleato, and J.~Eckstein, ``Distributed
+  optimization and statistical learning via the alternating direction method of
+  multipliers,'' Found. Trends Mach. Learn., vol.3, no.1, pp.1--122, Jan.\
+  2011.
+
+\end{thebibliography}

@@ -1,0 +1,73 @@
+\contentsline {chapter}{★\hspace {8pt}準備}{4}{chapter*.2}
+\contentsline {section}{ベクトル・行列に関する表記法}{4}{section*.3}
+\contentsline {paragraph}{スカラーとベクトル}{4}{paragraph*.4}
+\contentsline {paragraph}{空間}{4}{paragraph*.5}
+\contentsline {paragraph}{行列}{4}{paragraph*.6}
+\contentsline {paragraph}{転置}{4}{paragraph*.7}
+\contentsline {paragraph}{ベクトルの成分}{4}{paragraph*.8}
+\contentsline {paragraph}{内積}{5}{paragraph*.9}
+\contentsline {paragraph}{ノルム}{5}{paragraph*.10}
+\contentsline {chapter}{★\hspace {8pt}かけると便利なスクランブル --- ランダム射影 ---}{6}{chapter*.11}
+\contentsline {section}{原理}{6}{section*.12}
+\contentsline {section}{試してみよう}{7}{section*.13}
+\contentsline {paragraph}{ノルムを比べてみる}{7}{paragraph*.14}
+\contentsline {paragraph}{顔を比べてみる}{8}{paragraph*.15}
+\contentsline {section}{演習問題}{9}{section*.16}
+\contentsline {chapter}{★\hspace {8pt}方程式が足りない！どう解く？--- 劣決定問題と正則化 ---}{12}{chapter*.19}
+\contentsline {section}{劣決定の線形連立方程式}{12}{section*.20}
+\contentsline {section}{線形代数の基礎を少し復習}{12}{section*.21}
+\contentsline {paragraph}{連立方程式を行列とベクトルで書き表す}{12}{paragraph*.22}
+\contentsline {paragraph}{連立方程式は線形結合係数を求める問題である}{13}{paragraph*.23}
+\contentsline {paragraph}{ランクとは？}{13}{paragraph*.24}
+\contentsline {paragraph}{線形連立方程式が一意の解を持つかどうかは行列$\unhbox \voidb@x \hbox {\relax \mathversion {bold}$A$}$の性質次第}{13}{paragraph*.25}
+\contentsline {paragraph}{ベクトルのノルムとは？}{14}{paragraph*.26}
+\contentsline {section}{正則化の手法}{14}{section*.27}
+\contentsline {paragraph}{$\ell _2$最小長さ解}{14}{paragraph*.28}
+\contentsline {paragraph}{$\ell _2$正則化}{14}{paragraph*.29}
+\contentsline {section}{演習問題}{15}{section*.30}
+\contentsline {chapter}{★\hspace {8pt}多すぎるのは良くないことだ --- 劣決定問題のスパース解 ---}{18}{chapter*.31}
+\contentsline {section}{劣決定問題のスパース正則化}{19}{section*.32}
+\contentsline {paragraph}{前回までのあらすじ}{19}{paragraph*.33}
+\contentsline {paragraph}{スパース解}{19}{paragraph*.34}
+\contentsline {section}{スパース解が一意になる条件}{20}{section*.35}
+\contentsline {paragraph}{単純な例で考察しよう}{20}{paragraph*.36}
+\contentsline {subsection}{スパース解が一意になるための十分条件}{21}{section*.37}
+\contentsline {paragraph}{スパーク}{21}{paragraph*.38}
+\contentsline {paragraph}{制限等長性}{21}{paragraph*.39}
+\contentsline {section}{まとめ}{22}{section*.40}
+\contentsline {section}{演習問題}{23}{section*.41}
+\contentsline {chapter}{★\hspace {8pt}スパース解法 ---貪欲法 ---}{26}{chapter*.43}
+\contentsline {section}{OMP}{26}{section*.44}
+\contentsline {section}{演習問題}{27}{section*.45}
+\contentsline {chapter}{★\hspace {8pt}スパース解法 ---凸緩和 ---}{30}{chapter*.47}
+\contentsline {section}{スパース解を持つ凸問題}{30}{section*.48}
+\contentsline {section}{最適化アルゴリズム}{31}{section*.49}
+\contentsline {subsection}{閾値処理に基づく手法}{31}{section*.50}
+\contentsline {subsection}{ADMM}{32}{section*.51}
+\contentsline {paragraph}{スパース解法の導出例}{32}{paragraph*.52}
+\contentsline {section}{まとめ：結局どの問題をどう解けばよいのか}{33}{section*.53}
+\contentsline {section}{演習問題}{33}{section*.54}
+\contentsline {chapter}{★\hspace {8pt}固有ベクトルで分類 --- グラフのスペクトルとデータのクラスタリング ---}{36}{chapter*.56}
+\contentsline {section}{概要：グラフの解析によるデータの分類}{36}{section*.57}
+\contentsline {section}{代数的なグラフの取り扱い}{37}{section*.58}
+\contentsline {paragraph}{隣接行列}{37}{paragraph*.59}
+\contentsline {paragraph}{次数行列}{37}{paragraph*.60}
+\contentsline {paragraph}{クラスタを表すベクトル}{37}{paragraph*.61}
+\contentsline {paragraph}{ラプラシアン行列}{37}{paragraph*.62}
+\contentsline {section}{グラフのスペクトルと分割}{38}{section*.63}
+\contentsline {paragraph}{グラフの連結成分を見つける}{38}{paragraph*.64}
+\contentsline {paragraph}{類似度グラフを分割する}{38}{paragraph*.65}
+\contentsline {section}{スペクトラルクラスタリングのアルゴリズム}{39}{section*.66}
+\contentsline {section}{演習問題}{41}{section*.67}
+\contentsline {chapter}{★\hspace {8pt}2部グラフで同時に分類 --- 共クラスタリングと特異値分解 ---}{44}{chapter*.69}
+\contentsline {paragraph}{前回と今回のあらすじ}{44}{paragraph*.70}
+\contentsline {section}{対応が表すデータのクラスタ}{44}{section*.71}
+\contentsline {section}{2部グラフの切断によるデータの同時分類}{44}{section*.72}
+\contentsline {section}{2部グラフのスペクトラルクラスタリング}{45}{section*.73}
+\contentsline {paragraph}{類似度行列の作成}{45}{paragraph*.74}
+\contentsline {paragraph}{次数行列の作成}{46}{paragraph*.75}
+\contentsline {paragraph}{正規化類似度行列の作成}{46}{paragraph*.76}
+\contentsline {paragraph}{固有ベクトルの計算}{47}{paragraph*.77}
+\contentsline {paragraph}{ふたつの集合のクラスタリング}{47}{paragraph*.78}
+\contentsline {section}{特異値分解}{48}{section*.79}
+\contentsline {section}{演習問題}{48}{section*.80}

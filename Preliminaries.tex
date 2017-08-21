@@ -1,0 +1,221 @@
+\Chapter{準備}
+
+
+
+
+\Section{ベクトル・行列に関する表記法}
+\label{sec:notation}
+
+ベクトルや行列について本書が好んで用いる表記法を紹介する．
+
+
+\paragraph{スカラーとベクトル}
+本書では，実数の集合を$\mathbb{R}$と表す．
+例えば，$x\in\mathbb{R}$という記述は，
+「$x$は実数のスカラー（scalar）である」という意味である．
+また，2つの実数の組の集合を直積で表し，
+$\mathbb{R}\times\mathbb{R}=\mathbb{R}^2$と記す．
+例えば，$\vec x\in\mathbb{R}^2$は，
+$\vec x$が2つの実数の組で表される量であることを意味する．
+本書では，これを単に「$\vec x$は2次元のベクトル（vector）である」と言う．
+同様に，$\vec x\in\mathbb{R}^d$（ただし$d$は正の整数）という記述は，
+「$\vec x$は$d$次元ベクトルである」という意味である．
+
+\paragraph{空間}
+%$\mathbb{R}^d$は単に$d$個の実数の組に過ぎないが，
+%これを「$d$次元空間」と呼ぶことがある．
+空間（space）には，その性質や構造を備えるために内積や距離などが定義されている．
+例えば，実ベクトル空間は線形演算が定義された実数の配列の集合である．
+% set of arrays of real numbers with linear operations
+$\mathbb{R}^d$は単に$d$個の実数からなる配列の全体集合に過ぎないが，
+特に明示しない場合でも何らかの演算が定義されていることを意図して，
+本書では$\mathbb{R}^d$を「$d$次元空間」と単に呼ぶことがある．
+ただし，必ずしもお馴染みのユークリッド距離が定義されているユークリッド空間では
+ないかもしれないので注意されたい．
+
+\paragraph{行列}
+$m$行$n$列の実数の配列で表される量を実行列（real matrix）と呼び，
+その全体集合を$\mathbb{R}^{m\times n}$と表す．
+例えば，$\mtr A\in\mathbb{R}^{m\times n}$は，
+「$\mtr A$はサイズが$m\times n$の行列である」という意味である．
+ふたつの集合$[m]=\{1,\dots,m\}$と$[n]=\{1,\dots,n\}$の
+直積$[m]\times[n]=\{(1,1),(1,2),\dots,(m,n)\}$を添え字の集合とすると，
+行列は添え字から実数への対応付け$[m]\times[n]\rightarrow\mathbb{R}$を
+表していると見なせる．
+その略記が$\mathbb{R}^{m\times n}$の由来と考えられる．
+なお，本書では行列$\mtr A\in\mathbb{R}^{m\times n}$の
+第$ij$要素を$a_{ij}$と表記することがある．
+また，第$j$列を$\vec a^{(j)}\in\mathbb{R}^m$と書き表す．
+\[
+ \mtr A=\left[\vec a^{(1)}\;\vec a^{(2)}\;\cdots\;\vec a^{(n)}\right]\;\in\;\mathbb{R}^{m\times n}
+\]
+
+
+\paragraph{転置}
+行列$\mtr A\in\mathbb{R}^{m\times n}$の行と列の添え字を入れ替えた行列を
+$\mtr A^\top\in\mathbb{R}^{n\times m}$と記す
+\footnote{文献によっては$\mtr A^T$，${}^t\mtr A$，$\mtr A'$などと記されることもある．}．
+これは行列の転置（transposition）と呼ばれる操作であり，$\top$は転置の演算子である．\\
+例：
+\[
+\mtr A=\bmatrix{cc}{1.1 & 1.2\\ 2.1 & 2.2\\ 3.1 & 3.2}\in\mathbb{R}^{3\times 2}
+\qquad\Leftrightarrow\qquad
+\mtr A^\top=\bmatrix{ccc}{1.1 & 2.1 & 3.1\\ 1.2 & 2.2 & 3.2}\in\mathbb{R}^{2\times 3}
+\]
+この例のように，本書では行列の要素を並べた配列を大括弧で括って記述する．
+%
+また，複素数を要素とする行列$\mtr A\in\mathbb{C}^{m\times n}$に対して，
+転置行列の複素共役を随伴行列，エルミート転置行列などと呼び，
+$\mtr A^\dagger$や$\mtr A^H$などと書き表す．
+
+
+\paragraph{ベクトルの成分}
+サイズ$d\times 1$の行列は$d$次元の列ベクトルと呼ばれ，
+サイズ$1\times d$の行列は$d$次元の行ベクトルと呼ばれる．
+本書で$\vec x\in\mathbb{R}^d$と記したときは，
+特に断りがない場合，$\vec x$は列ベクトルであるものとする．
+なお，$d$個の実数$x_1,x_2,\dots,x_d$を成分にもつ
+列ベクトル$\vec x\in\mathbb{R}^d$を，
+紙面の都合上，$\vec x=[x_1,\dots,x_d]^\top$と書き表すことがある．\\
+例：
+\[
+\vec x=\bmatrix{c}{1.1\\ 2.1\\ 3.1\\ 4.1}\in\mathbb{R}^4
+\quad\Leftrightarrow\quad
+\vec x=[1.1,\,2.1,\,3.1,\,4.1]^\top
+\quad\Leftrightarrow\quad
+\vec x^\top=[1.1\,,2.1\,,3.1\,,4.1]
+\]
+
+
+\paragraph{内積}
+%行列$\mtr A\in\mathbb{R}^{m\times c}$は，
+%その列数$c$と等しい行数をもつ行列$\mtr B\in\mathbb{R}^{c\times n}$と
+%掛け合わせることができる．
+%それぞれの行列の第$ij$要素を$a_{ij}$，$b_{ij}$とすると，
+%行列の積$\mtr C=\mtr A\mtr B\in\mathbb{m\times n}$の
+%第$ij$要素は$c_{ij}=\sum{k=1}^c a_{ik}b_{kj}$である．
+%
+%内積は，次元数が同じ2つのベクトルからスカラーを得る演算である．
+行列の乗算の規則を利用して，
+次元数が同じ2つのベクトル$\vec a,\vec b\in\mathbb{R}^d$の内積を本書では
+%$\vec a^\top$と$\vec b$の積
+$\vec a^\top\vec b=a_1b_1+a_2b_2+\cdots+a_db_d\in\mathbb{R}$
+と書き表す．
+例：
+\[
+\vec a=[1,\,2,\,3]^\top,\;\vec b=[2,\,-3,\,4]^\top
+\quad\Leftrightarrow\quad
+\vec a^\top\vec b=1\cdot 2+2\cdot (-3)+3\cdot 4 = 8
+\]
+%なお，
+%任意の次元数の2つのベクトル$\vec a\in\mathbb{R}^m$と$\vec b\in\mathbb{R}^n$の積
+%$\vec a\vec b^\top\in\mathbb{R}^{m\times n}$は行列である．
+
+
+
+\paragraph{ノルム}
+ノルム（norm）は，長さ・大きさを表す非負の関数であり，
+$\|\cdot\|$という記号を用いて書き表す．
+本書には，何種類かのノルムが登場する．
+%
+最も単純な実数$x\in\mathbb{R}$に対するノルムは，
+実数の大きさを表す絶対値$\|x\|=|x|$に他ならない．
+%
+ベクトル$\vec x\in\mathbb{R}^d$の$p$ノルムまたは$\ell_p$ノルムと呼ばれるノルムは
+\[
+ \|\vec x\|_p=\left(|x_1|^p+|x_2|^p+\cdots+|x_d|^p\right)^{\frac{1}{p}}
+\]
+と定義されている．
+$p=2$のときユークリッドノルム，$p=1$のとき絶対値ノルムとも呼ばれる．
+行列のノルムもいくつか定義されており，
+ベクトルのノルムを行列に対して一般化したものが多い．
+例えば，行列$\mtr A\in\mathbb{R}^{m\times n}$の$\ell_p$ノルムは
+\[
+ \|\mtr A\|_p=\left(\sum_{i=1}^m\sum_{j=1}^n|a_{ij}|^p\right)^{\frac{1}{p}}
+\]
+と定義される．
+特に，$p=2$のときフロベニウスノルム（Frobenius norm）と呼ばれ，次式のように表記される．
+\[
+ \|\mtr A\|_F=\sqrt{\sum_{i=1}^m\sum_{j=1}^n|a_{ij}|^2}
+\]
+これとは異なる行列ノルムの定義もある．
+シャッテン$p$ノルム（Schatten $p$-norm）は，
+行列$\mtr A\in\mathbb{R}^{m\times n}$の
+特異値（singular values）$\vec\kappa=[\kappa_1,\dots,\kappa_{\min(m,n)}]^\top$を用いて
+$\|\mtr A\|_p=\|\vec\kappa\|_p$と定義された行列ノルムである．
+$\mtr A$の特異値は，
+正方行列$\mtr A\mtr A^\top$または$\mtr A^\top\mtr A$の固有値の平方根であり，
+$\mtr A$の列ベクトルまたは行ベクトルが表すデータの分布の広がりを表す量である．
+$p=2$のとき，シャッテンノルムはフロベニウスノルムと一致する．
+また，$p=1$のシャッテンノルムは特異値の総和を表す．
+これを核ノルム（nuclear norm）またはトレースノルム（trace norm）
+\footnote{$\|\mtr A\|_*=\tr(\sqrt{\mtr A^\top\mtr A})$と書き表せることに由来する．}
+と呼び，
+次式のように表記する．
+\[
+ \|\mtr A\|_*=\sum_{k=1}^{\min(m,n)}\kappa_k
+\]
+
+
+\iffalse
+
+arg min
+differntiation of quadratic form etc.
+
+
+
+%\begin{tabular}{ll}
+%\end{tabular}
+
+
+\Section{演習問題}
+\begin{enumerate}
+\item
+適当に作成した$n$本のベクトルについて，
+ランダム射影前後のノルムの相対誤差$\varepsilon^{(j)}$を計算せよ．
+\[
+  \varepsilon^{(j)}=\frac{\|\vec p^{(j)}\|-\|\vec x^{(j)}\|}{\|\vec x^{(j)}\|}\quad (j=1,\dots,n).
+\]
+\item
+相対誤差のヒストグラムを作成し，分布を観察せよ．
+ランダム射影先の次元数$d_p$が小さいと誤差はどうなるか．
+いくつか異なる次元数$d_p$についてヒストグラムを作成し，観察せよ．\\
+ヒント：MATLABでは，{\tt e}をベクトルとすると，
+{\tt hist(e,30)}は{\tt e}の成分についてビン数30のヒストグラムを作る．
+\item ランダム射影とノルム（または距離）の計算時間を測定せよ．\\
+ヒント：{\tt tic; p = R *x; toc}とすると，{\tt p = R * x}の
+実行にかかった時間が表示される．
+\item\yeeks
+計算時間とメモリ使用量がとても少ない
+効率的なランダム射影のアルゴリズムがある\cite{Sakai09ERPj,tsakaiAPR11}．
+そのアルゴリズムは，サイズ$d_p\times d_x$のランダム行列を生成する必要がない．
+どのようなアルゴリズムなのか調べよ．
+\item\yeeks
+Jhonson-Lindenstraussの埋め込み\cite{JL84,Achlioptas03,Dasgupta99,Vempala04}
+とは何か調査せよ．
+また，ランダム射影後の2点間の距離の誤差に関する命題を見つけ，説明せよ．
+\end{enumerate}
+\fi
+
+
+\iffalse
+
+{\footnotesize
+\bibliography{mybib_rp}
+}
+
+\section*{See also:}
+{\footnotesize
+\begin{description}
+\item[\href{https://drive.google.com/file/d/0Bx4bEpaTSFcgOFA5dVZoZXFkRmc}{[Sakai, 09]}\cite{Sakai09ERPj}]
+https://drive.google.com/file/d/0Bx4bEpaTSFcgOFA5dVZoZXFkRmc
+\item[\href{https://drive.google.com/file/d/0Bx4bEpaTSFcgZWp2ZDRLa2c1SEE}{[Sakai\&Imiya,11]}\cite{tsakaiAPR11}]
+https://drive.google.com/file/d/0Bx4bEpaTSFcgZWp2ZDRLa2c1SEE
+\item[\href{http://vision.ucsd.edu/~leekc/ExtYaleDatabase/ExtYaleB.html}{The Extended Yale Face Database B}]
+http://vision.ucsd.edu/~leekc/ExtYaleDatabase/ExtYaleB.html\\
+cropped images in MATLAB file: \href{https://drive.google.com/file/d/0Bx4bEpaTSFcgRm15NVlua1pOTWM}{YaleB\_Ext\_Cropped\_192x168\_all.mat}\\
+https://drive.google.com/file/d/0Bx4bEpaTSFcgRm15NVlua1pOTWM
+\end{description}
+}
+
+\fi

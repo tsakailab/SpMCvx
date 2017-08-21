@@ -1,0 +1,416 @@
+@article{JainClusteringReview,
+  author={Anil. K. Jain and M.N. Murty and P.J. Flynn},
+  title={Data clustering: a review},
+  journal={ACM Computing Surveys},
+  year={1999},
+  volume={31},
+  number={3},
+  pages={254--323},
+}
+
+
+@article{JainClustering50years,
+  author={Anil K. Jain},
+  title={Data clustering: 50 years beyond {K}-means},
+  journal={Pattern Recognition Letters},
+  year={2010},
+  volume={31},
+  number={8},
+  pages={651--666},
+}
+
+
+@article{Fiedler73,
+	author = {Miroslav Fiedler},
+	Journal = {Czechoslovak Mathematical Journal},
+    volume = {23},
+    number = {2},
+	pages = {298--305},
+	title = {Algebraic connectivity of graphs},
+	year = {1973}
+}
+
+% Spectral clustering, first developer
+@article{Fiedler75,
+	author = {M. Fiedler},
+	Journal = {Czechoslovak Mathematical Journal},
+    volume = {25},
+	pages = {619--633},
+	title = {A property of eigenvectors of nonnegative symmetric matrices and its application to graph theory},
+	year = {1975}
+}
+
+% Finds k eigenvectors of A, forms Y. Normalizes rows of Y. Forms Q = YY.
+% Segments by Q. Q(i,j)=1 -> same cluster
+@INPROCEEDINGS{Scott90,
+    author = {Guy L. Scott and H. Christopher Longuet-Higgins},
+    title = {Feature grouping by relocalisation of eigenvectors of the proximity matrix},
+    booktitle = {British Machine Vision Conference},
+    year = {1990},
+    pages = {103--108}
+}
+
+
+@article{Hagen92,
+	author = {L. Hagen and A.B. Kahng},
+	journal = {IEEE Transactions on Computer-Aided Design},
+    volume = {11},
+	number = {9},
+	pages = {1074--1085},
+	title = {New spectral methods for ratio cut partitioning and clustering},
+	year = {1992}
+}
+
+
+% Good survey of clustering using eigenvectors ICCV99
+@INPROCEEDINGS{Weiss99,
+    author = {Yair Weiss},
+    title = {Segmentation using eigenvectors: a unifying view},
+    booktitle = {In International Conference on Computer Vision},
+    year = {1999},
+    pages = {975--982}
+}
+
+% Comparison of spectral clustering algorithms
+@Article{Luxburg07,
+  Author =       {U. {Von Luxburg}},
+  Title =        {A Tutorial on Spectral Clustering},
+  volume =       17,
+  number =       4,
+  Year =         2007,
+  Pages =        {395--416},
+  journal =      {Statistics and Computing},
+}
+
+
+@article{Shi00,
+	author = {Jianbo Shi and Jitendra Malik},
+	citeulike-article-id = {520154},
+	journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+	keywords = {image\_segmentation, mac5801},
+	number = {8},
+	pages = {888--905},
+	posted-at = {2006-10-04 22:32:14},
+	priority = {0},
+	title = {Normalized cuts and image segmentation},
+	volume = {22},
+	year = {2000}
+}
+
+
+% Spectral clustering Mcut by Lrw=Ncut=Mcut
+@inproceedings{Ding01,
+    author = "Chris H. Q. Ding and Xiaofeng He and Hongyuan Zha and Ming Gu and Horst D. Simon",
+    title = "A Min-max Cut Algorithm for Graph Partitioning and Data Clustering",
+    booktitle = "Proceedings of ICDM 2001",
+    pages = "107-114",
+    year = "2001"
+}
+
+% Spectral clustering by Lsym=Ncut in ML
+@INPROCEEDINGS{NJW01,
+    author = {Andrew Y. Ng and Michael I. Jordan and Yair Weiss},
+    title = {On spectral clustering: Analysis and an algorithm},
+    booktitle = {Advances in Neural Information Processing Systems 14},
+    year = {2001},
+    pages = {849--856},
+    publisher = {MIT Press}
+}
+%	editor = {Dietterich, T. G.  and Becker, S.  and Ghahramani, Z. },
+
+% modified NJW, adaptive scale, cluster number estimation
+@INPROCEEDINGS{LP04,
+    author = {Lihi Zelnik-Manor and Pietro Perona},
+    title = {Self-tuning spectral clustering},
+    booktitle = {Advances in Neural Information Processing Systems 17},
+    year = {2004},
+    pages = {1601--1608},
+    publisher = {MIT Press}
+}
+
+
+
+@inproceedings{Yu03,
+    author = {Stella X. Yu and Jianbo Shi},
+    title = {Multiclass spectral clustering},
+    booktitle = {International Conference on Computer Vision},
+    year = {2003},
+    pages = {313--319}
+}
+
+
+
+
+% Spectral clustering can be performed by weighted kernel k-means,
+% which is proved from the viewpoint of trace minimization.
+@inproceedings{Dhillon04,
+ author = {Dhillon,, Inderjit S. and Guan,, Yuqiang and Kulis,, Brian},
+ title = {Kernel k-means: spectral clustering and normalized cuts},
+ booktitle = {ACM SIGKDD ICKDDM},
+ year = {2004},
+ isbn = {1-58113-888-1},
+ pages = {551--556},
+ location = {Seattle, WA, USA},
+ doi = {http://doi.acm.org/10.1145/1014052.1014118},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+ }
+
+
+
+% Similar to Fast Spectral Clustering,
+% derived from weighted kernel PCA.
+% The 'examples' are called out-of-sample and obtained by pixel subsampling.
+% They use the Lanczos method.
+% No suggestions to normalization, SVD, number of samples, etc.
+@inproceedings{Alzate07,
+ author = {Carlos Alzate and Johan A. K. Suykens},
+ title = {Image segmentation using a weighted kernel {P}{C}{A} approach to spectral clustering},
+ booktitle = {Computational Intelligence in Image and Signal Processing},
+ year = {2007},
+ isbn = {1-4244-0707-9},
+ pages = {208--213},
+ }
+
+
+% The same algorithm as the fast spectral clustering
+% derived from bipartite graph partitioning.
+@inproceedings{Dhillon01,
+ author = {Dhillon,, Inderjit S.},
+ title = {Co-clustering documents and words using bipartite spectral graph partitioning},
+ booktitle = {ACM SIGKDD},
+ year = {2001},
+ isbn = {1-58113-391-X},
+ pages = {269--274},
+ location = {San Francisco, California},
+ doi = {http://doi.acm.org/10.1145/502512.502550},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+% Image segmentation using spectral clustering that works O(n).
+% Major contribution is on:
+% - definition of affinity taking account of edge magnitudes
+% - multiscale representation of affinity matrix of pixels
+@inproceedings{Cour05,
+ author = {Cour,, Timothee and Benezit,, Florence and Shi,, Jianbo},
+ title = {Spectral Segmentation with Multiscale Graph Decomposition},
+ booktitle = {CVPR Proceedings},
+ volume = {2},
+ year = {2005},
+ isbn = {0-7695-2372-2},
+ pages = {1124--1131},
+ doi = {http://dx.doi.org/10.1109/CVPR.2005.332},
+ publisher = {IEEE Computer Society},
+ address = {Washington, DC, USA},
+ }
+
+
+% International Journal of Computer Vision, Vol. 59, No. 2, September 2004
+% IJCV paper, not spectral clustering, but
+% make the image segmentation efficient
+% by sparsify the affinity matrix
+% using grid graph (8-connected pixels) or NN graph.
+% This make O(n) edges for n pixel vertices.
+@Article{Felzenszwalb04,
+  Author =       {Pedro F. Felzenszwalb and Daniel P. Huttenlocher},
+  Title =        {Efficient graph-based image segmentation},
+  volume =       59,
+  number =       2,
+  Year =         2004,
+  Pages =        {167--181},
+  journal =      {International Journal of Computer Vision},
+}
+
+
+% three kernel approximation techniques
+@INPROCEEDINGS{Achlioptas02,
+    author = {Dimitris Achlioptas and Frank Mcsherry and Bernhard Sch Olkopf},
+    title = {Sampling techniques for kernel methods},
+    booktitle = {In Annual Advances in Neural Information Processing Systems 14},
+    year = {2002},
+    pages = {335--342},
+    publisher = {MIT Press}
+}
+
+% SVM by Nystrom
+@INPROCEEDINGS{Williams01,
+    author = {Christopher K. I. Williams and Matthias Seeger},
+    title = {Using the {N}ystr\"om method to speed up kernel machines},
+    booktitle = {Advances in Neural Information Processing Systems 13},
+    year = {2001},
+    pages = {682--688},
+    publisher = {MIT Press}
+}
+
+% Spectral clustering + Nystrom
+@ARTICLE{Fowlkes04,
+    author = {Charless Fowlkes and Serge Belongie and Fan Chung and Jitendra Malik},
+    title = {Spectral grouping using the {N}ystr\"om method},
+    journal = {IEEE Transactions on Pattern Analysis and Machine Intelligence},
+    year = {2004},
+    volume = {26},
+    pages = {214--225}
+}
+
+% Gram matrix by Nystrom
+@ARTICLE{Drineas05,
+    author = {Petros Drineas and Michael W. Mahoney},
+    title = {On the {N}ystr\"om method for approximating a {G}ram matrix for improved kernel-based learning},
+    journal = {Journal of Machine Learning Research},
+    year = {2005},
+    volume = {6},
+    pages = {2153--2175}
+}
+
+% using Krylov and FGT
+% segmentation application by spectral clustering
+@incollection{Freitas06,
+title = {Fast {K}rylov Methods for {N}-Body Learning},
+author = {Nando De Freitas and Yang Wang and Maryam Mahdaviani and Dustin Lang},
+booktitle = {Advances in Neural Information Processing Systems 18},
+publisher = {MIT Press},
+address = {Cambridge, MA},
+pages = {251--258},
+year = {2006}
+}
+%editor = {Y. Weiss and B. Sch\"{o}lkopf and J. Platt},
+
+% Parallel Krylov
+ @inproceedings{Song08,
+title = {Parallel Spectral Clustering},
+author = {Yangqiu Song and Wen-Yen Chen and Hongjie Bai and Chih-Jen Lin and Edward Y. Chang},
+booktitle = {ECML PKDD},
+series = {LNCS},
+volume = {5212},
+pages = {374--389},
+year = {2008},
+description = {Parallel Spectral Clustering},
+location = {Antwerp, Belgium}, isbn = {978-3-540-87480-5}, doi = {http://dx.doi.org/10.1007/978-3-540-87481-2_25},
+keywords = {08 Song clustering graph parallel spectral }
+}
+%address = {Berlin, Heidelberg},
+%publisher = {Springer-Verlag},
+
+% Lanczos (Krylov)
+@inproceedings{Mahadevan08,
+	title = {Fast Spectral Learning using {L}anczos Eigenspace Projections},
+	author = {Sridhar Mahadevan},
+	booktitle = {AAAI},
+	pages = {1472-1475},
+	year = {2008},
+	description = {dblp},
+	isbn = {978-1-57735-368-3},
+    date = {2008-08-15},
+	keywords = {dblp }
+}
+%	editor = {Dieter Fox and Carla P. Gomes},
+%	publisher = {AAAI Press},
+
+% SVD by Lanczos
+@ARTICLE{Berry92,
+    author = {Michael W. Berry},
+    title = {Large scale sparse singular value computations},
+    journal = {International Journal of Supercomputer Applications},
+    year = {1992},
+    volume = {6},
+    pages = {13--49}
+}
+
+% Golub
+@BOOK{Golub96,
+  AUTHOR       = {Gene H. Golub and Charles F. Van Loan},
+  TITLE        = {Matrix Computations (3rd ed.)},
+  PUBLISHER    = {Johns Hopkins University Press},
+  YEAR         = {1996},
+}
+%  NOTE         = {Third Edition}
+
+
+% A legend book
+@book{CDS3rd98,
+  AUTHOR       = {D.M. Cvetkovic\' and M. Doob and H. Sachs},
+  TITLE        = {Spectra of Graphs: Theory and Applications (3rd ed.)},
+  PUBLISHER    = {Johann Ambrosius Barth Verlag},
+  YEAR         = {1998},
+  description  = {V.E.B. Deutscher Verlag der Wissenschaften, Berlin, 1979.  Academic Press, New York, 1980.  Third rev. enl. ed., Wiley, New york, 1998.}
+}
+% green hard cover
+
+@book{CRS97,
+  AUTHOR       = {D. Cvetkovic\' and P. Rowlinson and S. K. Simic\'},
+  TITLE        = {Eigenspaces of graphs},
+  PUBLISHER    = {Cambridge University Press},
+  YEAR         = {1997},
+}
+% red soft cover
+
+@book{Biggs93,
+  AUTHOR       = {Norman Biggs},
+  TITLE        = {Algebraic Graph Theory (2nd ed.)},
+  PUBLISHER    = {Cambridge University Press},
+  YEAR         = {1993},
+  description  = {Cambridge Tracts in Mathematics, vol. 67, Cambridge Univ. Press, 1974.}
+}
+% blue soft cover, few graph figures in it!
+
+@INPROCEEDINGS{Ning07incrementalspectral,
+    author = {Huazhong Ning and Wei Xu and Yun Chi and Yihong Gong and Thomas Huang},
+    title = {Incremental spectral clustering with application to monitoring of evolving blog communities},
+    booktitle = {In SIAM Int. Conf. on Data Mining},
+    year = {2007}
+}
+
+
+
+
+
+
+
+
+% evaluation of clustering results by NMI
+@article{Strehl02,
+  author={Alexander Strehl and Joydeep Ghosh},
+  title={Cluster Ensembles --- A Knowledge Reuse Framework for Combining Multiple Partitions},
+  journal={Journal of Machine Learning Research},
+  year={2002},
+  volume={3},
+  pages={583--617},
+}
+
+
+
+@article{Parsons04,
+ author = {Lance Parsons and Ehtesham Haque and Huan Liu},
+ title = {Subspace clustering for high dimensional data: a review},
+ journal = {SIGKDD Explorations Newsletter},
+ volume = {6},
+ number = {1},
+ year = {2004},
+ issn = {1931-0145},
+ pages = {90--105},
+ doi = {http://doi.acm.org/10.1145/1007730.1007731},
+ publisher = {ACM},
+ address = {New York, NY, USA},
+}
+
+% suggested in related work that
+% distance matrix is quadratic and sparse
+\bibitem{Boulis04}
+@INPROCEEDINGS{Boulis04,
+    author = {Constantinos Boulis and Mari Ostendorf},
+    title = {Combining multiple clustering systems},
+    booktitle = {PKDD, LNAI 3202},
+    series = {LNAI},
+    volume = {3202},
+    year = {2004},
+    pages = {63--74}
+}
+
+
+
+
+
+
+
+

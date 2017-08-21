@@ -1,0 +1,48 @@
+This is JBibTeX, Version 0.99c-j0.33 (utf8.euc) (Web2C 7.5.6)
+The top-level auxiliary file: SparseSolvers_relax.aux
+The style file: ieicetr.bst
+Reallocated wiz_functions (elt_size=4) to 3400 items from 0.
+Database file #1: mybib_sparse.bib
+Database file #2: mybib_cs.bib
+You've used 15 entries,
+            2213 wiz_defined-function locations,
+            651 strings with 6787 characters,
+and the built_in function-call counts, 6286 in all, are:
+= -- 716
+> -- 220
+< -- 0
++ -- 93
+- -- 72
+* -- 444
+:= -- 942
+add.period$ -- 15
+call.type$ -- 15
+change.case$ -- 81
+chr.to.int$ -- 0
+cite$ -- 15
+duplicate$ -- 258
+empty$ -- 458
+format.name$ -- 72
+if$ -- 1433
+int.to.chr$ -- 0
+int.to.str$ -- 15
+missing$ -- 14
+newline$ -- 48
+num.names$ -- 30
+pop$ -- 58
+preamble$ -- 1
+purify$ -- 66
+quote$ -- 0
+skip$ -- 262
+stack$ -- 0
+substring$ -- 535
+swap$ -- 112
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 60
+warning$ -- 0
+while$ -- 72
+width$ -- 17
+write$ -- 162
+is.kanji.str$ -- 0

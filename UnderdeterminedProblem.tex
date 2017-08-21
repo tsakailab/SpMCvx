@@ -1,0 +1,382 @@
+\input{Common}
+
+\Chapter{方程式が足りない！どう解く？--- 劣決定問題と正則化 ---}
+
+
+\Section{劣決定の線形連立方程式}
+
+未知数の数よりも方程式の数が少ない線形連立方程式（a system of linear equations）を
+考えよう．
+そのような連立方程式は，無数の解を持ち，解をひとつに決められない問題なので，
+%
+%\footnote{
+%``一般に'' とは ``ほとんどすべて'' を意味する．
+%``一般的に正方行列は可逆である．''}
+{\bf 劣決定問題}（underdetermined problem）と呼ばれる．
+
+劣決定問題の例を見てみよう．
+3個の未知数$x_1,x_2,x_3$\footnote{%
+未知数が3個のとき$x,y,z$の記号を使うことに慣れているかもしれないが，
+実用上は未知数が$3$個以上あるかもしれないので，本書では添え字付きの記号を使う．}%
+に対して2本の方程式しかない連立方程式
+\begin{equation}
+\smatrix{\small}{rrr}
+{1 & 1 & 1\\
+1 & 2 & 3}
+\smatrix{\small}{c}{x_1\\ x_2\\ x_3}
+=
+\smatrix{\small}{r}{1\\ 2}
+\label{eq:underdetermined example}
+\end{equation}
+の解は，任意の定数$t\in\mathbb{R}$を使って
+\begin{equation}
+ \vec x=\smatrix{\small}{c}{x_1\\ x_2\\ x_3}
+%=\smatrix{\small}{c}{t\\ 1-2t \\ t}
+=\smatrix{\small}{c}{0\\ 1\\ 0}+\smatrix{\small}{c}{1\\ -2\\ 1}t.
+\label{eq:solution to the example}
+\end{equation}
+と表すことができる．
+%（式(\ref{eq:underdetermined example})に代入して確認せよ）．
+$x_1=0,x_2=1,x_3=0$（$t=0$）でもよいし，$x_1=1,x_2=-1,x_3=1$（$t=1$）でもよい．
+
+連立方程式(\ref{eq:underdetermined example})は，
+3次元空間における2つの平面
+$x_1+x_2+x_3=1$と$x_1+2x_2+3x_3=2$を表している．
+式(\ref{eq:solution to the example})はこの2平面の交わりを表す直線である．
+直線は3次元空間の点$[0,1,0]^\top$を通り，方向ベクトルが$[1,-2,1]^\top$である．
+この直線上の任意の点$\vec x\in\mathbb{R}^3$すべてが解の候補であり，
+与えられた方程式(\ref{eq:underdetermined example})を満たす．
+よって，この例は，解が無数に存在し一意に定まらない劣決定問題である．
+
+解を一意に定めるためには，解について更に何か条件が必要である．
+例えば，線形方程式がもう1本追加されれば，
+3個の未知数に対して方程式が3本になる．
+もはや劣決定ではなくなり，3本の線形方程式が表す3平面が交わる1点に
+解が定まる．
+
+しかし，式(\ref{eq:underdetermined example})のような劣決定問題に対して，
+追加の方程式が全く手に入らないときは，どうしようか．
+無数にある解の候補から，ひとつの解を選ぶ合理的な方法はあるだろうか．
+方程式の他に，解について何らかの{\bf 事前情報}または{\bf 事前知識}
+（prior information/knowledge）を持っているならば，
+解を特定する条件としてそれを使えないだろうか．
+例えば，「未知数はゼロになるものが多い」という情報を知っていれば，
+式(\ref{eq:solution to the example})で表される解の候補の中から
+解$\vec x=[0,1,0]^\top$を選べるだろう．
+ここでは，解をひとつの絞り込む正則化と呼ばれる手法を紹介しよう．
+
+
+\Section{線形代数の基礎を少し復習}
+
+\paragraph{連立方程式を行列とベクトルで書き表す}
+
+任意の線形連立方程式は，行列とベクトルを使って
+\begin{equation}
+ \mtr A\vec x=\vec b
+\label{eq:linear system}
+\end{equation}
+と書き表せる．
+ここで，行列$\mtr A\in\mathbb{R}^{m\times n}$と
+ベクトル$\vec b\in\mathbb{R}^m$は与えられるものであるとし，
+$m$本の連立方程式を表している\footnote{%
+例えば，式(\ref{eq:underdetermined example})の連立方程式では，
+$\mtr A=\bmatrix{ccc}{1 & 1 & 1\\ 1 & 2 & 3}$，$\vec b=\bmatrix{c}{1\\ 2}$である．}．
+ベクトル$\vec x$は$n$個の未知数を成分に持つベクトルである．
+連立方程式の本数$m$と未知数の個数$n$によって，
+行列$\mtr A$は横長（$m<n$），正方（$m=n$），縦長（$m>n$）のいずれかになる．
+
+
+\paragraph{連立方程式は線形結合係数を求める問題である}
+
+行列$\mtr A$は，$m$次元ベクトルが列に$n$本並んでいると見ることができる．
+本書では，行列$\mtr A$の第$j$列を
+$\vec a^{(j)}\in\mathbb{R}^m$と表すことにする．
+%$\vec x=[x_1,\dots,x_n]^\top$について
+連立方程式(\ref{eq:linear system})は，
+与えられた$n$本の$m$次元ベクトル$\vec a^{(j)}$ ($j=1,\dots,n$)を使って，
+$m$次元ベクトル$\vec b$を合成するための線形結合係数を求める問題であると解釈できる．
+なぜならば，
+\begin{equation}
+ \vec b=\mtr A\vec x
+=\smatrix{\normalsize}{ccc}{\vec a^{(1)} & \dots & \vec a^{(n)}}
+\smatrix{\normalsize}{c}{x_1\\ \vdots\\ x_n}
+=x_1\vec a^{(1)}+\cdots+x_n\vec a^{(n)}
+\label{eq:linear combination}
+\end{equation}
+と表せるからである．
+$n$本の$m$次元ベクトル$\vec a^{(j)}$ ($j=1,\dots,n$)は，
+$m$次元ベクトル$\vec b$を線形結合で合成するための{\bf 基底}（basis）
+と呼ばれる．
+
+例えば，式(\ref{eq:underdetermined example})の劣決定問題は，
+3本の列ベクトル
+$\vec a^{(1)}=\smatrix{\small}{c}{1\\ 1},\vec a^{(2)}=\smatrix{\small}{c}{1\\ 2},\vec a^{(3)}=\smatrix{\small}{c}{1\\ 3}$を基底として，
+2次元ベクトル$\vec b=\smatrix{\small}{c}{1\\ 2}$を
+\[
+%\vec b=
+\smatrix{\small}{c}{1\\ 2}
+%=\smatrix{\small}{ccc}{1 & 1 & 1\\ 1 & 2 & 3}\smatrix{\small}{c}{x_1\\ x_2\\ x_3}
+=x_1\smatrix{\small}{c}{1\\ 1}+x_2\smatrix{\small}{c}{1\\ 2}+x_3\smatrix{\small}{c}{1\\ 3}
+\]
+のように合成するとき，線形結合係数$x_1,x_2,x_3$を求める問題であると解釈できる．
+2次元ベクトル$\vec b$を合成するための基底
+$\vec a^{(1)},\vec a^{(2)},\vec a^{(3)}$の使い方は，一意に定まらない．
+$x_1=0,x_2=1,x_3=0$でもよいし，$x_1=1,x_2=-1,x_3=1$でもよい．
+式(\ref{eq:solution to the example})のように，無数に解がある．
+
+\paragraph{ランクとは？}
+
+行列$\mtr A$から線形独立\footnote{%
+%$k$本のベクトル$\vec v^{(1)},\vec v^{(2)},\dots,\vec v^{(k)}$の
+線形結合
+$c_1\vec v^{(1)}+c_2\vec v^{(2)}+\dots+c_k\vec v^{(k)}$について，
+$c_1=c_2=\dots=c_k=0$とする以外にゼロベクトルが作れないならば，
+$k$本のベクトル$\vec v^{(1)},\vec v^{(2)},\dots,\vec v^{(k)}$は
+線形独立であるという．
+線形独立な$k$本のベクトルは，ちょうど打ち消しあうことができないので，
+どのベクトルもそのベクトルを使わないと作り出せない個性を持っているということ．
+}%
+な列ベクトルをできるだけ多く選び出したとき，
+その列ベクトルの本数を$\mtr A$の{\bf ランク}（rank）と呼び，
+$\rank\mtr A$と記す\footnote{階数とも呼ばれる}．
+$m$次元ベクトルなので，線形独立なベクトルは高々$m$本である．
+$\rank\mtr A=\min(m,n)$のとき\footnote{%
+$\min(m,n)$とは，$m$と$n$のどちらか小さい方のことである．
+もし$m>n$の場合は$\min(m,n)=n$本までしか列ベクトルを選べないので，
+ランクは$\min(m,n)$となる．}，
+$\mtr A$は{\bf フルランク}（full rank）
+であるという．
+
+\paragraph{線形連立方程式が一意の解を持つかどうかは行列$\vec A$の性質次第}
+
+\begin{itemize}
+%\begin{description}
+\item
+%\item[Solution by inverse matrix]
+もし，行列$\mtr A$が{\bf 正則}（regular）ならば（逆行列を持つならば），
+一意の解$\vec x=\mtr A^{-1}\vec b$が存在する．
+\item
+%\item[Invertibility]
+$\mtr A$が正則である必要十分条件は，
+$\mtr A$がフルランクの正方行列であることである．
+すなわち，$m=n=\rank\mtr A$である．
+正則行列が表す基底は{\bf 完備}（complete）であると呼ばれる．
+その理由は，式(\ref{eq:linear combination})のように，
+どのようなベクトル$\vec b\in\mathbb{R}^m$も
+行列$\mtr A$の$n=m$本の列ベクトルの線形結合で一意に表せるからである．
+\item
+劣決定の連立方程式，つまり未知数より方程式が少ない場合（$m<n$），
+解は無数に存在する．
+$\mtr A$の$n$本の列ベクトルの線形結合は，
+任意の$m$次元ベクトル$\vec b\in\mathbb{R}^m$を表現できるが，
+表現が無数に存在する．
+行列$\mtr A$は横長であり，次元数$m$よりも基底ベクトルの本数$n$が多い．
+$\mtr A$の$n$本の列ベクトルから$m$本をどのように選んでも完備な基底が作れるならば，
+そのような横長行列が表す基底は{\bf 過完備}（overcomplete）であると呼ばれる．
+\item
+{\bf 優決定問題}（overdetermined problem）の連立方程式，
+つまり未知数より方程式が多い場合（$m>n$）は，一般に「解なし」である\footnote{%
+縦長行列$\mtr A$が$\rank\mtr A=n$ならば解なしである．
+$\rank\mtr A<n$ならば縦長行列であっても劣決定問題であり，解は無数に存在する．}．
+$m$本の方程式から$n$本選んで求めた解$\vec x$は，
+選ばなかった他の方程式を満たさないという矛盾が必ず生じる．
+$\mtr A$は$m$次元の列ベクトルを$n$本しか持たないので，
+任意の$m$次元ベクトル$\vec b$を合成するためには基底が不十分である．
+
+\end{itemize}
+%\end{description}
+
+
+\paragraph{ベクトルのノルムとは？}
+
+ベクトル$\vec x$の大きさを表す非負の実数をノルム（norm）と呼び，
+$\|\vec x\|$と表す．
+原点Oから位置ベクトル$\vec x$の点までの距離を表すと考えてよい．
+しかし，ノルムの測り方は色々ある．
+最もよく用いられるノルムは$\ell_2$ノルムである．
+$n$次元ベクトル$\vec x=[x_1,x_2,\dots,x_n]^\top\in\mathbb{R}^n$の$\ell_2$ノルムは
+$\|\vec x\|_2$と書き表され，下記のように定義されている．
+\begin{equation}
+\|\vec x\|_2=\sqrt{\vec x^\top\vec x}=\sqrt{x_1^2+\dots+x_n^2}
+\label{eq:l2 norm}
+\end{equation}
+これは，原点と位置ベクトル$\vec x$の点の間のユークリッド距離である．
+
+$\ell_2$ノルム以外にもノルムの定義がある．
+例えば，$\vec x$の$\ell_1$ノルムは
+\begin{equation}
+ \|\vec x\|_1=|x_1|+|x_2|+\dots+|x_n|
+\label{eq:l1 norm}
+\end{equation}
+と定義される．
+$\ell_1$ノルムで測った距離はマンハッタン距離（Manhattan distance）
+とも呼ばれる．
+
+
+
+\Section{正則化の手法}
+
+{\bf 正則化}（regularization）とは，
+何らかの条件や情報・事前知識等に基づき，
+問題の解をひとつに限定することである．
+新たな方程式を追加することなく，
+劣決定の連立方程式をどのように正則化できるだろうか．
+
+
+\paragraph{$\ell_2$最小長さ解}
+
+劣決定の連立方程式は，解$\vec x$のノルムによって単純に正則化できる．
+「解$\vec x$は原点Oに近い（ベクトル$\vec x$が短い）ほど良い解である」
+という事前知識が正しければ，これを使って最良の解を一意に特定できる．
+この解を最小長さ解（minimum length solution）と呼ぶ．
+
+$n$次元空間の原点から点$\vec x\in\mathbb{R}^n$までのユークリッド距離は，
+式(\ref{eq:l2 norm})のように$\ell_2$ノルム$\|\vec x\|_2$で測ることができる．
+劣決定の連立方程式の解のうち，
+原点からのユークリッド距離が最も小さい（$\ell_2$ノルムが最も小さい）
+最小長さ解を求める問題は，
+次のような最小化問題として記述できる．
+\begin{equation}
+ \min_{\small\vec x}\|\vec x\|_2^2\quad\mbox{ subject to }\quad
+\mtr A\vec x=\vec b.
+%\|\vec b-\mtr A\vec x\|\leq\delta.
+\label{eq:minimum length solution}
+\end{equation}
+%where $\delta\geq 0$ is a tolerance.
+この記述は，
+「$\vec x$の$\ell_2$ノルムの2乗$\|\vec x\|_2^2$の最小値を求めよ．
+ただし，$\vec x$は$\mtr A\vec x=\vec b$を満たすものとする．」
+という意味である．
+式(\ref{eq:minimum length solution})の最小値から決まる
+一意の解$\vec x^*$は，
+$\mtr A$と$\vec b$を使って書き表すことができる
+（演習問題\ref{ex:min l2 solution}）．
+\begin{equation}
+\vec x^*=\mtr A^\top(\mtr A\mtr A^\top)^{-1}\vec b
+\label{eq:MLS}
+\end{equation}
+
+
+\paragraph{$\ell_2$正則化}
+
+$\ell_2$最小長さ解と似ているが，
+少し異なる別の正則化の手法として，$\ell_2$正則化を紹介しよう．
+$\ell_2$正則化は，連立方程式から解$\vec x$がずれている量（誤差）と，
+解の$\ell_2$ノルムの2乗$\|\vec x\|_2^2$を，一緒に最小化する．
+\begin{equation}
+ \min_{\small\vec x} \frac{1}{2}\|\vec b-\mtr A\vec x\|_2^2
++\lambda \|\vec x\|_2^2
+\label{eq:l2 regularization}
+\end{equation}
+この記述は，
+「$\vec b$と$\mtr A\vec x$のずれの大きさ$\|\vec b-\mtr A\vec x\|_2^2$と，
+$\vec x$の長さを表す量$\lambda\|\vec x\|_2^2$を計算した．
+$\vec x$を調節して，この和の最小値を求めよ．」という意味である．
+$\ell_2$正則化は，統計学の分野で{\bf リッジ回帰}（ridge regression）として知られている．
+式(\ref{eq:l2 regularization})から決まる一意の解$\vec x^*$も，
+$\mtr A$，$\vec b$，$\lambda$を使って書き表すことができる
+（演習問題\ref{ex:l2 regularization}）%
+\footnote{式(\ref{eq:l2 regularization})に$\frac{1}{2}$が付いていなければ
+$\vec x^*=(\mtr A^\top\mtr A+\lambda\mtr I)^{-1}\mtr A^\top\vec b$
+が最小解である．}．
+\begin{equation}
+\vec x^*=(\mtr A^\top\mtr A+2\lambda\mtr I)^{-1}\mtr A^\top\vec b
+\label{eq:l2 ridge}
+\end{equation}
+
+
+式(\ref{eq:l2 regularization})の最小値から決まる解$\vec x$は，
+もはや$\mtr A\vec x=\vec b$を厳密には満たさない．
+$\vec b$と$\mtr A\vec x$のずれの大きさ$\|\vec b-\mtr A\vec x\|_2^2$
+は{\bf 損失関数}（loss function）と呼ばれる．
+$\ell_2$ノルムで測った誤差と考えてよい．
+%$\hat{\vec b}=\mtr A\vec x$で$\vec b$を近似したときの
+%誤差と考えてよい．
+正の定数$\lambda\in\mathbb{R}_+$は，
+損失関数と解の$\ell_2$ノルムのどちらも小さくなるようにバランスをとる役割があり，
+あらかじめ適切な値を設定しておく必要がある．
+設定した$\lambda$が小さいほど，
+損失関数が小さい（連立方程式を近似的に良く満たす）解が選ばれるようになるが，
+$\ell_2$ノルムが小さい解が選ばれ難くなる（つまり事前知識が活かされない）．
+逆に，設定した$\lambda$が大きいほど，
+解の$\ell_2$ノルムが小さいという事前知識が重視されるが，
+損失関数があまり小さくない（連立方程式をあまり満たさない）解が選ばれるようになる．
+
+
+無数の解の候補のうち，$\ell_2$ノルムが小さいものを選ぶことは適切なのだろうか．
+連立方程式に帰着する何かの応用問題で，もし$\vec x$の成分が
+物理量（例えば電流や電圧，速度等）を表しているならば，
+式(\ref{eq:l2 norm})のような2乗和はエネルギーに相当するので，
+$\ell_2$最小長さ解はエネルギーが最小の解を選んでいると解釈できるかもしれない．
+しかし，式(\ref{eq:l1 norm})の$\ell_1$ノルムのように，
+$\ell_2$以外のノルムを用いた正則化も非常に重要であり，
+科学技術の様々な分野で次々と革新的な成果を生んでいる．
+次回はそのような正則化を紹介しよう．
+
+
+
+
+\Section{演習問題}
+\begin{enumerate}
+
+\item
+式(\ref{eq:underdetermined example})の劣決定問題の$\ell_2$最小長さ解を求めよ．\\
+ヒント：解は$t$を使って式(\ref{eq:solution to the example})のように表される．
+$\|\vec x\|_2^2$は$t$の2次関数になる．これが最小となる$t$を求めよ．
+
+\item\yeeks\label{ex:min l2 solution}
+劣決定問題
+$\mtr A\vec x=\vec b$
+（$\mtr A\in\mathbb{R}^{m\times n}$, $m<n$）について，
+$\ell_2$最小長さ解
+\begin{equation}
+ \vec x^*=\arg\min_{\small\vec x}\|\vec x\|_2^2\quad\mbox{ subject to }\quad \mtr A\vec x=\vec b
+\end{equation}
+は，$\mtr A$と$\vec b$を用いて
+式(\ref{eq:MLS})のように陽に書き表せることを示せ．\\
+ヒント：ラグランジュ乗数法（the Lagrange multiplier method）を適用する．
+最小長さ解は，下記のラグランジュ関数の停留点である．
+\[
+ L(\vec x,\vec\lambda)=\frac{1}{2}\vec x^\top\vec x+\vec\lambda^\top(\vec b-\mtr A\vec x).
+\]
+
+\item
+式(\ref{eq:underdetermined example})の劣決定問題について，
+$\vec x^*=\mtr A^\top(\mtr A\mtr A^\top)^{-1}\vec b$を計算せよ．
+$\vec x^*$は$\ell_2$最小長さ解である．
+
+
+\item\yeeks\label{ex:l2 regularization}
+劣決定問題
+$\mtr A\vec x=\vec b$
+（$\mtr A\in\mathbb{R}^{m\times n}$, $m<n$）について，
+$\ell_2$正則化問題の解
+\begin{equation}
+ \vec x^*=\arg\min_{\small\vec x} \frac{1}{2}\|\vec b-\mtr A\vec x\|_2^2+\lambda \|\vec x\|_2^2
+\end{equation}
+は，$\mtr A$，$\vec b$，$\lambda$を用いて
+式(\ref{eq:l2 ridge})のように陽に書き表せることを示せ．\\
+ヒント：$\vec x$のすべての成分について偏微分してゼロと置く．
+{\bf 勾配}（gradient），
+{\bf リッジ回帰}または{\bf チホノフ正則化}（Tikhonov regularization）について調査せよ．
+
+\item\yeeks\label{ex:least squares}
+優決定問題
+$\mtr A\vec x=\vec b$
+（$\mtr A\in\mathbb{R}^{m\times n}$, $m>n$）の解は一般に存在しない．
+$\ell_2$ノルムで測った誤差$\|\vec b-\mtr A\vec x\|_2$を最小にする$\vec x$を
+近似解とする手法は{\bf 最小二乗法}（least squares method）と呼ばれる．
+最小二乗解
+\begin{equation}
+ \vec x^*=\arg\min_x\|\vec b-\mtr A\vec x\|_2^2
+\end{equation}
+は，$\mtr A$と$\vec b$を用いて
+\begin{equation}
+ \vec x^*=(\mtr A^\top\mtr A)^{-1}\mtr A^\top\vec b
+\end{equation}
+のように陽に書き表せることを示せ．
+
+
+
+\end{enumerate}
+

@@ -1,0 +1,805 @@
+% OF computation
+
+%my paper
+@inproceedings{Sakai15,
+  title={Separating background and foreground optical flow fields by low-rank and sparse regularization},
+  author={Sakai, Tomoya and Kuhara, Hiroki},
+  booktitle={Acoustics, Speech and Signal Processing (ICASSP), 2015 IEEE International Conference on},
+  pages={1523--1527},
+  year={2015},
+  organization={IEEE}
+}
+
+%%ADMM
+%@article{Gabay76dual,
+%  title={A dual algorithm for the solution of nonlinear variational problems via finite element approximation},
+%  author={Gabay, Daniel and Mercier, Bertrand},
+%  journal={Computers \& Mathematics with Applications},
+%  volume={2},
+%  number={1},
+%  pages={17--40},
+%  year={1976},
+%  publisher={Elsevier}
+%}
+
+% Survey paper
+@article{Barron94,
+author = {John L. Barron and David J. Fleet and Steven Beauchemin},
+title = {Performance of optical flow techniques},
+journal = {International Journal of Computer Vision},
+volume = {12},
+number = {1},
+pages = {43--77},
+year = {1994},
+}
+
+@article{Beauchemin95,
+  title={The computation of optical flow},
+  author={Beauchemin, Steven S. and Barron, John L.},
+  journal={ACM Computing Surveys (CSUR)},
+  volume={27},
+  number={3},
+  pages={433--466},
+  year={1995},
+  publisher={ACM}
+}
+
+% handbook
+@incollection{Fleet06,
+  title={Optical flow estimation},
+  author={Fleet, David and Weiss, Yair},
+  booktitle={Handbook of Mathematical Models in Computer Vision},
+  pages={237--257},
+  year={2006},
+  publisher={Springer}
+}
+
+@book{Castillo07,
+author = {Edward Castillo},
+title = {Optical flow methods for the registration of compressible flow images and images containing large voxel displacements or artifacts},
+publisher = {PhD thesis, Rice University},
+year = {2007}
+}
+
+@article{Baker11,
+  title={A database and evaluation methodology for optical flow},
+  author={Baker, Simon and Scharstein, Daniel and Lewis, JP and Roth, Stefan and Black, Michael J and Szeliski, Richard},
+  journal={International Journal of Computer Vision},
+  volume={92},
+  number={1},
+  pages={1--31},
+  year={2011},
+  publisher={Springer}
+}
+
+@ARTICLE{Raudies13,
+AUTHOR = {Raudies, F. },
+TITLE   = {{O}ptic flow},
+YEAR	= {2013},
+JOURNAL	= {Scholarpedia},
+VOLUME  = {8},
+NUMBER  = {7},
+PAGES   = {30724},
+}
+%NOTE   = {{revision #137115}},
+
+
+
+% HS, global non-parametric method (smoothness regularization)
+@article{HS81,
+author = {Berthold K.P. Horn and Brian G. Schunck},
+title = {Determining optical flow},
+journal = {Artificial Intelligence},
+volume = {17},
+pages = {185--203},
+year = {1981},
+}
+
+% LK, local PDE method (piecewise constant assumption)
+@inproceedings{LK81,
+author = {Bruce D. Lucas and Takeo Kanade},
+title = {An iterative image registration technique with an application to stereo vision},
+booktitle = {Proceedings of Imaging Understanding Workshop},
+pages = {121--130},
+year = {1981}
+}
+
+
+% Region-based matching
+
+
+
+
+%%LSQR
+%@article{Paige82lsqr,
+%  title={LSQR: An algorithm for sparse linear equations and sparse least squares},
+%  author={Paige, Christopher C and Saunders, Michael A},
+%  journal={ACM Transactions on Mathematical Software (TOMS)},
+%  volume={8},
+%  number={1},
+%  pages={43--71},
+%  year={1982},
+%  publisher={ACM}
+%}
+
+
+% TV-L1
+@article{Bruhn05,
+  title={Lucas/Kanade meets Horn/Schunck: Combining local and global optic flow methods},
+  author={Bruhn, Andr{\'e}s and Weickert, Joachim and Schn{\"o}rr, Christoph},
+  journal={International Journal of Computer Vision},
+  volume={61},
+  number={3},
+  pages={211--231},
+  year={2005},
+  publisher={Springer}
+}
+
+% TV-L1
+@inproceedings{Zach07,
+ author = {Zach, C. and Pock, T. and Bischof, H.},
+ title = {A Duality Based Approach for Realtime {TV-L1} Optical Flow},
+ booktitle = {Proceedings of the 29th DAGM Conference on Pattern Recognition},
+ year = {2007},
+ location = {Heidelberg, Germany},
+ pages = {214--223},
+ publisher = {Springer-Verlag},
+ address = {Berlin, Heidelberg},
+}
+
+% TV-L1
+% editor = {Cremers, Daniel and Rosenhahn, Bodo and Yuille, Alan L. and Schmidt, Frank R.},
+@incollection{Wedel09,
+ author = {Andreas Wedel and Thomas Pock and Christopher Zach and Horst Bischof and Daniel Cremers},
+ title = {An Improved Algorithm for {TV-L1} Optical Flow},
+ booktitle = {Statistical and Geometrical Approaches to Visual Motion Analysis},
+ year = {2009},
+ pages = {23--45},
+ numpages = {23},
+ publisher = {Springer-Verlag},
+ address = {Berlin, Heidelberg},
+}
+
+
+% Learning optical flow subspaces
+@inproceedings{Roberts09,
+title = {Learning General Optical Flow Subspaces for Egomotion Estimation and Detection of Motion Anomalies},
+booktitle = {CVPR},
+year = {2009},
+author = {Richard Roberts and Christian Potthast and Frank Dellaert}
+}
+
+
+
+% Egomotion estimation
+% motion on retina
+@article{Longuet80,
+  title={The interpretation of a moving retinal image},
+  author={Longuet-Higgins, H Christopher and Prazdny, Kvetoslav},
+  journal={Proceedings of the Royal Society of London. Series B. Biological Sciences},
+  volume={208},
+  number={1173},
+  pages={385--397},
+  year={1980},
+  publisher={The Royal Society}
+}
+
+% planar egomotion
+@incollection{Enkelmann90,
+  title={Obstacle detection by evaluation of optical flow fields from image sequences},
+  author={Enkelmann, Wilfried},
+  booktitle={Computer Vision?ECCV 90},
+  pages={134--138},
+  year={1990},
+  publisher={Springer}
+}
+
+% planar egomotion
+@article{Santos96,
+  title={Uncalibrated obstacle detection using normal flow},
+  author={Santos-Victor, Jos{\'e} and Sandini, Giulio},
+  journal={Machine vision and applications},
+  volume={9},
+  number={3},
+  pages={130--137},
+  year={1996},
+  publisher={Springer}
+}
+
+% planar egomotion
+@article{Ohnishi06,
+  title={Dominant plane detection from optical flow for robot navigation},
+  author={Ohnishi, Naoya and Imiya, Atsushi},
+  journal={Pattern Recognition Letters},
+  volume={27},
+  number={9},
+  pages={1009--1021},
+  year={2006},
+  publisher={Elsevier}
+}
+
+
+% MST, egomotion
+@article{Duffy91,
+  title={Sensitivity of {MST} neurons to optic flow stimuli. I. A continuum of response selectivity to large-field stimuli},
+  author={Duffy, Charles J and Wurtz, Robert H},
+  journal={j Neurophysiol},
+  volume={65},
+  number={6},
+  pages={1329--1345},
+  year={1991},
+  publisher={Am Physiological Soc}
+}
+
+% MST, egomotion
+@article{Duffy98,
+  title={{MST} neurons respond to optic flow and translational movement},
+  author={Duffy, Charles J},
+  journal={Journal of neurophysiology},
+  volume={80},
+  number={4},
+  pages={1816--1827},
+  year={1998},
+  publisher={Am Physiological Soc}
+}
+
+% Egomotion, modeling
+%Grossberg et al. (1999) suggest the estimation of heading, which is the direction of the linear velocity, from a basis set of flow patterns, which cover a large region of the visual field.
+@article{Grossberg99,
+  title={A neural model of motion processing and visual navigation by cortical area {MST}},
+  author={Grossberg, Stephen and Mingolla, Ennio and Pack, Christopher},
+  journal={Cerebral Cortex},
+  volume={9},
+  number={8},
+  pages={878--895},
+  year={1999},
+  publisher={Oxford Univ Press}
+}
+
+% Egomotion, navigation
+@article{Fajen03,
+  title={Behavioral dynamics of steering, obstable avoidance, and route selection},
+  author={Fajen, Brett R and Warren, William H},
+  journal={Journal of Experimental Psychology: Human Perception and Performance},
+  volume={29},
+  number={2},
+  pages={343},
+  year={2003},
+  publisher={American Psychological Association}
+}
+
+% egomotion, modeling, log-monopole mapping
+%Elder et al. (2009) extended the model of Grossberg et al. (1999) 
+%to explain data on visual steering behavior for obstacle avoidance and target approach
+%from Fajen & Warren (2003).
+@article{Elder09,
+  title={A neural model of visually guided steering, obstacle avoidance, and route selection.},
+  author={Elder, David M and Grossberg, Stephen and Mingolla, Ennio},
+  journal={Journal of Experimental Psychology: Human Perception and Performance},
+  volume={35},
+  number={5},
+  pages={1501},
+  year={2009},
+  publisher={American Psychological Association}
+}
+
+% Egomotion, navigagion, real world
+%Browning et al. (2009) extended these models by adding a stage that estimates optic flow and demonstrated it on real-world video
+@article{Browning09,
+  title={Cortical dynamics of navigation and steering in natural scenes: Motion-based object segmentation, heading, and obstacle avoidance},
+  author={Andrew Browning, N and Grossberg, Stephen and Mingolla, Ennio},
+  journal={Neural Networks},
+  volume={22},
+  number={10},
+  pages={1383--1398},
+  year={2009},
+  publisher={Elsevier}
+}
+
+
+%Layton et al. (2012) proposed a model for visually guided navigation in the presence of independently moving objects. In conclusion, some models use optic flow from image sequences directly for visual guidance.
+@article{Layton12,
+  title={A motion pooling model of visually guided navigation explains human behavior in the presence of independently moving objects},
+  author={Layton, Oliver W and Mingolla, Ennio and Browning, N Andrew},
+  journal={Journal of vision},
+  volume={12},
+  number={1},
+  pages={20},
+  year={2012},
+  publisher={Association for Research in Vision and Ophthalmology}
+}
+
+
+% Robust estimation of egomotion
+%
+% generalized Hough transform to estimate egomotion
+@article{Ballard83,
+  title={Rigid body motion from depth and optical flow},
+  author={Ballard, Dana H and Kimball, OA},
+  journal={Computer Vision, Graphics, and Image Processing},
+  volume={22},
+  number={1},
+  pages={95--115},
+  year={1983},
+  publisher={Elsevier}
+}
+
+@article{Nister05,
+  title={Preemptive {RANSAC} for live structure and motion estimation},
+  author={Nist{\'e}r, David},
+  journal={Machine Vision and Applications},
+  volume={16},
+  number={5},
+  pages={321--329},
+  year={2005},
+  publisher={Springer}
+}
+
+
+% combined RANSAC Hough approach for egomotion recovery
+@inproceedings{Hollander07,
+  title={A Combined RANSAC-Hough Transform Algorithm for Fundamental Matrix Estimation.},
+  author={Den Hollander, Richard JM and Hanjalic, Alan},
+  booktitle={British Machine Vision Conference},
+  pages={1--10},
+  year={2007},
+}
+
+% EISATS SET 2
+@INPROCEEDINGS{IVCNZ08,
+author = {Tobi Vaudrey and Clemens Rabe and Reinhard Klette and James Milburn},
+title = {Differences Between Stereo and Motion Behavior on Synthetic and Real-World Stereo Sequences},
+booktitle = {23rd International Conference of Image and Vision Computing New Zealand (IVCNZ '08)},
+year = { 2008},
+pages = {1-6}
+}
+
+
+
+%% RANSAC
+@article{Fischler81RANSAC,
+  title={Random sample consensus: a paradigm for model fitting with applications to image analysis and automated cartography},
+  author={Fischler, Martin A and Bolles, Robert C},
+  journal={Communications of the ACM},
+  volume={24},
+  number={6},
+  pages={381--395},
+  year={1981},
+  publisher={ACM}
+}
+
+%% Bundle adjustment
+@incollection{Triggs00Bundle,
+  title={Bundle adjustment {-} a modern synthesis},
+  author={Triggs, Bill and McLauchlan, Philip F and Hartley, Richard I and Fitzgibbon, Andrew W},
+  booktitle={Vision algorithms: theory and practice},
+  pages={298--372},
+  year={2000},
+  publisher={Springer}
+}
+
+
+
+
+
+% PCA of vector field
+% 2D complex
+@article{Horel84,
+author = {J. D. Horel},
+    title = {Complex principal component analysis: theory and examples},
+    journal = {Journal of Climate and Applied Meteorology},
+    year = {1984},
+    volume = {23},
+    pages = {1660--1673}
+}
+
+% 2D complex, wind measurements, oldest one?
+@article{Hardy78,
+author = {Donald M. Hardy and John J. Walton},
+title = {Principal components analysis of vector wind measurements},
+journal = {Journal of Applied Meteorology},
+year = {1978},
+volume = {17},
+pages = {1153--1162}
+}
+
+
+
+%% PCA
+%@article{Pearson01,
+%author = {Karl Pearson},
+%title = {On lines and planes of closest fit to systems of points in space},
+%journal = {Philosophical Magazine},
+%year = {1901},
+%volume = {2},
+%number = {11},
+%pages = {559--572}
+%}
+%
+%@article{Hotelling33,
+%author = {H. Hotelling},
+%title = {Analysis of complex of statistical variables into principal components},
+%journal = {Journal of Educational Psychology},
+%year = {1933},
+%volume = {24},
+%pages = {417--441 and 498--520}
+%}
+%
+%@book{PCA86,
+%author = {I. T. Jolliffe},
+%title = {Principal Component Analysis},
+%publisher = {Springer-Verlag},
+%year = {1986}
+%}
+%
+%
+%
+%% RPCA
+%% nuclear and l1 relaxation
+%@article{CandesRPCA11,
+%  author    = {Emmanuel J. Cand{\`e}s and
+%               Xiaodong Li and
+%               Yi Ma and
+%               John Wright},
+%  title     = {Robust principal component analysis?},
+%  journal   = {Journal of the ACM},
+%  volume    = {58},
+%  number    = {3},
+%  year      = {2011},
+%  pages     = {11:1--11:37},
+%  ee        = {http://doi.acm.org/10.1145/1970392.1970395}
+%}
+%% submission in 2009
+%
+%%
+%@article{tao2011recovering,
+%  title={Recovering low-rank and sparse components of matrices from incomplete and noisy observations},
+%  author={Tao, Min and Yuan, Xiaoming},
+%  journal={SIAM Journal on Optimization},
+%  volume={21},
+%  number={1},
+%  pages={57--81},
+%  year={2011},
+%  publisher={SIAM}
+%}
+%
+
+
+%
+
+
+%
+
+
+
+
+
+
+
+
+
+
+% nuclear and l1 relaxation
+@inproceedings{WrightRPCA09,
+  author    = {John Wright and Arvind Ganesh and Shankar Rao and Yi Ma},
+  title     = {Exact recovery of corrupted low-rank matrices via convex optimization},
+  booktitle = {Proceedings of Neural Information Processing System (NIPS)},
+  year      = {2009}
+}
+
+
+% nuclear and l1 relaxation
+% formulation (without calling it RPCA)
+@inproceedings{ChandrasekaranRPCA09,
+  author    = {Venkat Chandrasekaran and Sujay Sanghavi and Pablo A. Parrilo},
+  title     = {Sparse and low-rank matrix decompositions},
+  booktitle = {IFAC Symposium on System Identification},
+  year      = {2009}
+}
+
+% RPCA algorithms
+% RPCA_ADMM
+@inproceedings{RPCA_ADMM09,
+author = {Zhouchen Lin and Minming Chen and Leqin Wu and Yi Ma},
+title = {The augumented {L}agrange multiplier method for exact recovery of corrupted low-rank matrices},
+booktitle = {UILU-ENG-09-2215, UIUC},
+month = {November},
+year = {2009}
+}
+%pages = {},
+
+
+% ADMM for convex programming decomposition is
+% a special cases of the proximal point algorithm.
+@article{Eckstein_ADMM92,
+author = {Jonathan Eckstein and Dimitri P. Bertsekas},
+title = {On the {D}ouglas-Rachford splitting method and the proximal point algorithm for maximal monotone operators},
+journal = {Mathematical Programming},
+volume = {55},
+number = {1--3},
+pages = {293--318},
+month = {April},
+year = {1992}
+}
+
+% ALM original
+@article{Hestenes_ALM69,
+author = {Magnus R. Hestenes},
+title = {Multiplier and gradient methods},
+journal = {Optimization Theory and Applications},
+volume = {4},
+number = {5},
+pages = {303--320},
+year = {1969}
+}
+
+% Principal Component Pursuits, a RPCA algorithm
+@article{GandyYamada10,
+author = {Silvia Gandy and Isao Yamada},
+title = {Convex optimization techniques for the efficient recovery of a sparsely corrupted low-rank matrix},
+journal = {Journal of Math-for-Industry},
+volume = {2},
+number = {2010B-5},
+pages = {147--156},
+year = {2010}
+}
+
+% RPCA ADMM, original
+@misc{Yuan09,
+  title={Sparse and low-rank matrix decomposition via alternating direction methods},
+  author={Yuan, Xiaoming and Yang, Junfeng},
+  journal={Technical report, Rice University},
+  year={2009}
+}
+
+
+% 3 way
+% 3 way decomposition, proposal
+@inproceedings{Zhou10,
+  author    = {Z. Zhou and X. Li and J. Wright and E. Cand{\`e}s and Y. Ma},
+  title     = {Stable principal component pursuit},
+  booktitle = {IEEE ISIT Proceedings},
+  year      = {2010},
+  pages = {1518--1522},
+}
+
+% 3 way algorithms derivation, original, ASALM, VASALM, PSALM, extended ASALM=IALM
+@article{Tao11,
+  title={Recovering low-rank and sparse components of matrices from incomplete and noisy observations},
+  author={Tao, Min and Yuan, Xiaoming},
+  journal={SIAM Journal on Optimization},
+  volume={21},
+  number={1},
+  pages={57--81},
+  year={2011},
+  publisher={SIAM}
+}
+
+% 3 way decomposition(same as ASALM), application
+@article{Oreifej13,
+  title={Simultaneous video stabilization and moving object detection in turbulence},
+  author={Oreifej, Omar and Li, Xin and Shah, Mubarak},
+  journal={Pattern Analysis and Machine Intelligence, IEEE Transactions on},
+  volume={35},
+  number={2},
+  pages={450--462},
+  year={2013},
+  publisher={IEEE}
+}
+
+% PSPG: 3 way, fast converge
+@article{AybatPSPG14,
+  title={Efficient algorithms for robust and stable principal component pursuit problems},
+  author={Aybat, Necdet Serhat and Goldfarb, Donald and Ma, Shiqian},
+  journal={Computational Optimization and Applications},
+  volume={58},
+  number={1},
+  pages={1--29},
+  year={2014},
+  publisher={Springer}
+}
+% ADMIP(NSA): 3 way fast converge
+@article{aybat2014alternating,
+  title={An alternating direction method with increasing penalty for stable principal component pursuit},
+  author={Aybat, NS and Iyengar, G},
+  journal={Computational Optimization and Applications},
+  year={2014}
+}
+
+
+
+
+
+
+% Sparse representation
+@article{Tibshirani96,
+author = {Tibshirani, R.},
+title = {Regression shrinkage and selection via the lasso},
+journal = {Journal of the Royal Statistical Society, Series B},
+volume = {58},
+pages = {267--288},
+year = {1996}
+}
+
+@article{Kim07,
+author = {Kim, S.-J. and Koh, K. and Lustig, M. and Boyd, S. and Gorinevsky, D},
+title = {An interior-point method for large-scale $l_1$-regularized least squares},
+journal = {IEEE Journal of Selected Topics in Signal Processing},
+volume = {1},
+number = {4},
+pages = {606--617},
+year = {2007}
+}
+
+@article{Figueiredo07,
+author = {Figueiredo, M. A. T. and Nowak, R. D. and Wright, S. J.},
+title = {Gradient projection for sparse reconstruction: Application to compressed sensing and other inverse problems},
+journal = {IEEE Journal of Selected Topics in Signal Processing},
+volume = {1},
+number = {4},
+pages = {586--597},
+year = {2007}
+}
+
+@article{SJWright09,
+author = {Wright, S. J. and Nowak, R. D. and Figueiredo, M. A. T.},
+title = {Sparse reconstruction by separable approximation},
+journal = {IEEE Trans. Signal Processing},
+volume = {57},
+number ={7},
+pages = {2479--2493},
+year = {2009}
+}
+
+@article{Tomioka09,
+author = {Tomioka, R. and Sugiyama, M.},
+title = {Dual augmented {L}agrangian method for efficient sparse reconstruction},
+journal = {IEEE Signal Processing Letters},
+volume = {16},
+number = {2},
+pages = {1067--1070},
+year = {2009}
+}
+
+% curvelet
+@article{Candes00,
+author = {Cand\`es, E. J. and Donoho, D.},
+title = {Curvelets -- a surprisingly effective nonadaptive representation for objects with edges},
+editor = {Rabut, C. and Cohen, A. and Schumaker, L.L.},
+journal = {Curves and Surfaces},
+publisher = {Vanderbilt University Press, Nashville, TN.},
+pages = {105--120},
+year = { 2000}
+}
+
+@article{Candes06b,
+	author = {Cand\`es, E. J.  and Romberg, J.  and Tao, T. },
+	journal = {Comm. on Pure and Applied Math},
+	number = {8},
+	pages = {1207--1223},
+	title = {Stable signal recovery from incomplete and inaccurate measurements},
+	volume = {59},
+	year = {2006}
+}
+
+% number of measurements
+@article{Candes07,
+	author = {Cand\`es, E. J. and Romberg, J.},
+	journal = {Inverse Problems},
+    volume = {23},
+    number = {3},
+	pages = {969--985},
+	title = {Sparsity and incoherence in compressive sampling},
+	year = {2007}
+}
+
+% RIP
+@article{Candes08RIP,
+	author = {Cand\`es, E. J.},
+	doi = {10.1016/j.crma.2008.03.014},
+	journal = {Comptes Rendus Mathematique},
+	month = {May},
+	number = {9-10},
+	pages = {589--592},
+	title = {The restricted isometry property and its implications for compressed sensing},
+	volume = {346},
+	year = {2008}
+}
+
+@article{Candes08intro,
+	author = {Cand\`es, E. J. and Wakin, M. B.},
+	journal = {IEEE Signal Processing Magazine},
+	pages = {21--30},
+	title = {An introduction to compressive sampling},
+	year = {March, 2008}
+}
+
+% Compressed sensing
+@article{Donoho06,
+	author = {Donoho, D.L.},
+	journal = {IEEE Trans. Information Theory},
+	pages = {1289--1306},
+	title = {Compressed sensing},
+	volume = {52},
+    number = {4},
+	year = {2006}
+}
+
+% l0=l1, number of measurements, stronger condition
+@article{Candes05,
+	author = {Cand\`es, E. J. and Tao, T.},
+	journal = {IEEE Transactions on Information Theory},
+	number = {12},
+	pages = {4203--4215},
+	title = {Decoding by linear programming},
+	volume = {51},
+	year = {2005}
+}
+
+% l0=l1
+@article{Candes06a,
+	author = {Emmanuel J. Cand\`es and Justin Romberg and Terence Tao},
+	journal = {IEEE Transactions on Information Theory},
+	number = {2},
+	pages = {489--509},
+	title = {Robust uncertainty principles: exact signal reconstruction from highly incomplete frequency information},
+	volume = {52},
+	year = {2006}
+}
+
+% IEICE
+@article{CSRecipe13,
+  author    = {Kazunori Hayashi and
+               Masaaki Nagahara and
+               Toshiyuki Tanaka},
+  title     = {A User's Guide to Compressed Sensing for Communications
+               Systems},
+  journal   = {IEICE Transactions},
+  volume    = {96--B},
+  number    = {3},
+  year      = {2013},
+  pages     = {685--712},
+}
+
+
+% Dictionary learning
+%K-SVD
+@INPROCEEDINGS{KSVD05,
+    author = {Michal Aharon and Michael Elad and Alfred Bruckstein},
+    title = { {K-SVD}: Design of dictionaries for sparse representation},
+    booktitle = {SPARS�f05},
+    year = {2005},
+    pages = {9--12},
+}
+
+@article{KSVD06,
+    author = {Michal Aharon and Michael Elad and Alfred Bruckstein},
+    title = { {K-SVD}: An Algorithm for Designing Overcomplete Dictionaries for Sparse Representation},
+    journal = {IEEE Trans. Signal Processing},
+    vol = {54},
+    no = {11},
+    year = {2006},
+    pages = {4311--4322},
+}
+
+@inproceedings{SPAMS09,
+  author    = {Julien Mairal and
+               Francis Bach and
+               Jean Ponce and
+               Guillermo Sapiro},
+  title     = {Online dictionary learning for sparse coding},
+  booktitle = {Intl. Conf. Machine Learning (ICML)},
+  year      = {2009},
+  pages     = {87},
+}
+
+% ROMP
+@article{Needell09,
+	author = {Deanna Needell and Roman Vershynin},
+	journal = {Foundations of Computational Mathematic},
+	pages = {317--334},
+	title = {Uniform uncertainty principle and signal recovery via regularized orthogonal matching pursuit},
+	volume = {9},
+	number = {3},
+	year = {2009}
+}

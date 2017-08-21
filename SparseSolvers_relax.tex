@@ -1,0 +1,417 @@
+\input{Common}
+
+\Chapter{スパース解法 ---凸緩和 ---}
+
+
+次のような$\ell_0$最小化問題の解き方を考えよう．
+\begin{equation}
+ \min_{\small\vec x} \|\vec x\|_0\quad\mbox{ subject to }\quad \mtr A\vec x=\vec b.
+\label{eq:l0 min c}
+\end{equation}
+
+\Section{スパース解を持つ凸問題}
+
+%もうひとつの代表的なスパース解法は$\ell_1$ノルムを用いた凸緩和である．
+貪欲法とは別の，もうひとつの代表的なスパース解法は，
+$\ell_1$ノルムを用いた凸緩和である．
+式(\ref{eq:l0 min c})の$\ell_0$ノルムを$\ell_1$ノルムに置き換えた最小化問題
+\begin{equation}
+ \min_{\small\vec x} \|\vec x\|_1\quad\mbox{ subject to }\quad \mtr A\vec x=\vec b
+\label{eq:l1 min}
+\end{equation}
+は{\bf 基底追跡}（basis pursuit; BP）と呼ばれる\cite{Chen98}．
+$\mtr A$が$\delta<\sqrt{2}-1$の$(\delta,2k)$-RIP条件を満たすならば，
+式(\ref{eq:l1 min})は式(\ref{eq:l0 min c})と
+同一のスパース解を持つことが証明されている\cite{Candes06b,Candes08RIP}．
+$\ell_p$ノルムは，$p\geq 1$のとき%$\vec x$の
+{\bf 凸関数}（convex function）\footnote{%
+集合$C\subset\mathbb{R}^n$について，
+任意の2点$\vec x_1,\vec x_2\in C$を結ぶ線分上の点を
+$\vec x_\alpha=\alpha\vec x_1+(1-\alpha)\vec x_2$ ($0\leq\alpha\leq1$)とする．
+必ず$\vec x_\alpha\in C$ならば，$C$は{\bf 凸集合}（convex set）である．
+さらに，$f(\vec x_\alpha)\leq \alpha f(\vec x_1)+(1-\alpha)f(\vec x_2)$が
+成り立つならば，$f$は凸関数である．}
+であり，最小化問題の解が必ず一意になる．
+
+BPは線形計画法（linear programming; LP）に書き直すことができる．
+\[
+ \|\vec x\|_1=\min_{\vec x^+,\vec x^-}\vec 1^\top(\vec x^++\vec x^-)
+\quad\mbox{subject to}\quad
+\vec x=\vec x^+-\vec x^-,\;\vec x^+\geq \vec 0,\;\vec x^-\geq\vec 0
+\]
+また，BPは次式の{\bf 基底追跡ノイズ除去}（basis pursuit denoising; BPDN）
+\cite{Chen98}の特別な場合である．
+\begin{equation}
+ \min_{\small\vec x} \|\vec x\|_1\quad\mbox{ subject to }\quad \|\vec b-\mtr A\vec x\|_2\leq\delta
+\label{eq:BPDN}
+\end{equation}
+ただし，$\delta\geq 0$は定数である．
+
+次式のように$\ell_1$ノルムに上界を設けた残差の$\ell_2$最小化問題は
+{\bf LASSO}（least absolute shrinkage and selection operator）と呼ばれる
+\cite{Tibshirani96}．
+\begin{equation}
+ \min_{\small\vec x} \|\vec b-\mtr A\vec x\|_2
+\quad\mbox{ subject to }\quad  \|\vec x\|_1\leq \tau
+\label{eq:lasso}
+\end{equation}
+ただし，$\tau>0$は定数である．
+
+式(\ref{eq:BPDN})と(\ref{eq:lasso})の最小化問題は，
+$\ell_1$正則化最小二乗問題（$\ell_1$-LS）
+\begin{equation}
+ \min_{\small\vec x} \frac{1}{2}\|\vec b-\mtr A\vec x\|_2^2+\lambda \|\vec x\|_1
+\label{eq:l1ls}
+\end{equation}
+と等価である．
+すなわち，ある$\delta>0$に対する式(\ref{eq:BPDN})の解が
+式(\ref{eq:l1ls})の解と一致するような定数$\lambda>0$が存在する．
+同様に， ある$\tau\geq 0$に対する式(\ref{eq:lasso})の解が
+式(\ref{eq:l1ls})の解と一致するような定数$\lambda\geq 0$が存在する\cite{Figueiredo07}%
+\footnote{ただし，$\delta$や$\tau$に対応する$\lambda$を求める一般的な方法はない．}．
+なお，式(\ref{eq:l1ls})は{\bf LASSO回帰}（LASSO regression）とも呼ばれる．
+
+
+$\ell_2$最小長さ解や$\ell_2$正則化問題の解$\vec x^*$は，
+与えられた行列$\mtr A$や$\vec b$を用いて陽に書き表すことができた．
+これらの$\ell_2$最小化問題は
+それぞれ式(\ref{eq:l1 min})のBPや式(\ref{eq:l1ls})の$\ell_1$-LSに非常に良く似ている．
+しかし，$\ell_1$ノルムは$\ell_2$ノルムのように微分できないので，
+式(\ref{eq:l1 min})のBPや式(\ref{eq:BPDN})のBPDN，
+または式(\ref{eq:lasso})のLASSOや式(\ref{eq:l1ls})の$\ell_1$-LSのような
+最小化問題の解は，もはや解を陽に導出できない．
+%
+%BPやBPDN，LASSOや$\ell_1$-LSなど，
+そこで，$\ell_1$ノルムが関わる凸最適化問題の解を
+数値的に求める方法が研究されてきた
+（例えば\cite{Donoho95,Tibshirani96,Chen98}
+\cite{Figueiredo07,Kim07,SJWright09,Tomioka09}など）．
+
+
+
+\Section{最適化アルゴリズム}
+
+\Subsection{閾値処理に基づく手法}
+
+様々な解法があるが，代表的なものをいくつか紹介しよう．
+まず，式(\ref{eq:l1ls})で$\mtr A=\mtr I$の場合は，
+単純であるが理解のため重要である．
+なぜならば，これは次のような成分毎の最小化問題になるからである．
+\begin{equation}
+ \min_{x_j}\frac{1}{2}(b_j-x_j)^2+\lambda|\,x_j|\quad (j=1,\dots,n)
+\label{eq:proximity l1}
+\end{equation}
+この最小値を与える解は，
+次のように陽に書ける（演習問題\ref{ex:soft thresholding}）．
+\begin{equation}
+x_j^*=\left\{\begin{array}{cl}
+b_j-\lambda & (0<\lambda<b_j)\\
+0 & (-\lambda\leq b_j\leq\lambda)\\
+b_j+\lambda & (b_j<-\lambda<0)
+\end{array}\right.
+\label{eq:soft thresholding}
+\end{equation}
+要するに，$\vec b$の各成分を原点Oに向けて$\lambda$だけ縮めると
+解$\vec x^*$が得られる．
+$|b_j|$が$\lambda$より小さい成分はゼロになるので，解はスパースである．
+式(\ref{eq:soft thresholding})の処理は
+{\bf ソフト閾値処理}（soft thresholding/shrinkage）\cite{Donoho95}と呼ばれ，
+$\vec x^*=\soft(\vec b,\lambda)$と書く．
+
+
+式(\ref{eq:l1ls})で$\mtr A\neq\mtr I$の場合は，
+少々強引ではあるが$\mtr A^\top\mtr A\approx L\mtr I$
+（$L$はLipschitz定数）と近似すると，定点$\vec x^{(k)}$の近傍で
+\[
+\frac{1}{2}\|\vec b-\mtr A\vec x\|_2^2
+\;\approx\;
+\frac{1}{2}\|\vec b-\mtr A\vec x^{(k)}\|_2^2
++(\vec x-\vec x^{(k)})^\top\mtr A^\top(\mtr A\vec x^{(k)}-\vec b)
++\frac{L}{2}\|\vec x-\vec x^{(k)}\|_2^2
+\]
+%\[
+%\frac{1}{2}\|\vec b-\mtr A\vec x\|_2^2+\lambda\|\vec x\|_1
+%\approx
+%\frac{1}{2}\|\vec b-\mtr A\vec x^{(k)}\|_2^2
+%+(\vec x-\vec x^{(k)})^\top\mtr A^\top(\mtr A\vec x^{(k)}-\vec b)
+%+\frac{1}{L}\|\vec x-\vec x^{(k)}\|_2^2+\lambda\|\vec x\|_1
+%=F(\vec x,\vec x^{(k)})
+%\]
+と近似できるので，これに$\lambda\|\vec x\|_1$を付加した関数
+\[
+ F(\vec x,\vec x^{(k)}) \defas \frac{1}{2}\|\vec b-\mtr A\vec x^{(k)}\|_2^2
++(\vec x-\vec x^{(k)})^\top\mtr A^\top(\mtr A\vec x^{(k)}-\vec b)
++\frac{L}{2}\|\vec x-\vec x^{(k)}\|_2^2+\lambda\|\vec x\|_1
+\]
+を$\vec x$について最小化すると，次式の反復式を得る（演習問題\ref{ex:IST derivation}）．
+\begin{eqnarray}
+ \vec x^{(k+1)}&\defas&\arg\min_{\vec x}F(\vec x,\vec x^{(k)})
+=\arg\min_{\vec x}\left(
+\frac{1}{2}\|\vec x^{(k)}+\frac{1}{L}\mtr A^\top(\vec b-\mtr A\vec x^{(k)})-\vec x\|_2^2+\frac{\lambda}{L}\|\vec x\|_1\right)
+\label{eq:IST derivation}\\
+&=&\soft\left(\vec x^{(k)}+\frac{1}{L}\mtr A^\top(\vec b-\mtr A\vec x^{(k)}),\,\frac{\lambda}{L}\right)\nonumber
+\end{eqnarray}
+これは{\bf IST}（iterative soft shrinkage）\cite{Daubechies04}と
+呼ばれるアルゴリズムである．
+初期値は任意でよいが，$\vec x^{(0)}=\mtr A^\top\vec b$がよく使われる．
+また，ISTの収束を改善した{\bf FISTA}
+（fast iterative shrinkage-thresholding algorithm）\cite{Beck09}は，
+近接点（proximal point）$\vec w^{(k)}$を使った次のような反復法である
+\cite{Nesterov83,Nesterov07,Beck09}．
+\begin{eqnarray*}
+\vec w^{(1)} & \defas & \vec x^{(0)},\qquad t_1\;\defas\;1\\
+ \vec x^{(k)} & \defas & 
+\soft\left(\vec w^{(k)}+\frac{1}{L}\mtr A^\top(\vec b-\mtr A\vec w^{(k)}),\,\frac{\lambda}{L}\right)\\
+t_{k+1} &\defas& \frac{1+\sqrt{1+4t_k^2}}{2}\\
+\vec w^{(k+1)} & \defas & \vec x^{(k)}+\frac{t_k-1}{t_{k+1}}(\vec x^{(k)}-\vec x^{(k-1)})
+\end{eqnarray*}
+
+
+\iffalse
+{\bf IST}（iterative soft shrinkage）\cite{Daubechies04}と呼ばれる
+次のようなソフト閾値処理の反復計算による解法が導出される．
+\begin{algorithm}[h]
+\caption{Iterative soft shrinkage: $\vec x = \mbox{\sc IST}(\vec b,\mtr A,L,\lambda,\delta)$}
+\label{alg:IST}
+\begin{algorithmic}[1]
+\REQUIRE
+$\vec b$: $m$次元ベクトル，$\mtr A$: $m\times n$行列，
+$\lambda$: 定数，$L$: Lipschitz定数，$\delta$: 許容誤差;
+\ENSURE $\vec x$: スパースな$n$次元ベクトル;
+\STATE
+$\vec x$を初期化する（例えば$\vec x\subs\vec 0\in\mathbb{R}^{n}$）;
+\STATE
+$\vec r\subs \vec b-\mtr A\vec x$;
+\WHILE{$\|\vec r\|_2/\|\vec b\|_2>\delta$}
+\STATE
+$\vec r\subs\vec b-\mtr A\vec x$;
+\STATE
+$\vec x\subs\soft(\vec x+\frac{1}{L}\mtr A^\top\vec r,\frac{\lambda}{L})$;
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+\fi
+
+
+
+\Subsection{ADMM}
+
+{\bf 交互方向乗数法}（alternating direction method of multipliers; ADMM）\cite{GabayMercier76}は，
+次のような最適化問題を解く反復解法である．
+\begin{equation}
+ \min_{(\vec x,\vec z)}f(\vec x)+g(\vec z)\quad\mbox{subject to}\quad\mtr F\vec x+\mtr G\vec z=\vec c
+\label{eq:ADMM objective}
+\end{equation}
+ただし，$f(\vec x)$と$g(\vec z)$は凸関数とする．
+最適解を得る反復式は次のとおりである．
+\begin{eqnarray}
+\vec x^{(k+1)} &\defas & \arg\min_{\vec x} f(\vec x)+\frac{\rho}{2}\|\vec y^{(k)}+\mtr F\vec x+\mtr G\vec z^{(k)}-\vec c\|_2^2\label{eq:ADMM x update}\\
+\vec z^{(k+1)} & \defas & \arg\min_{\vec z} g(\vec z)+\frac{\rho}{2}\|\vec y^{(k)}+\mtr F\vec x^{(k+1)}+\mtr G\vec z-\vec c\|_2^2\label{eq:ADMM z update}\\
+\vec y^{(k+1)}& \defas & \vec y^{(k)}+\mtr F\vec x^{(k+1)}+\mtr G\vec z^{(k+1)}-\vec c\label{eq:ADMM Lagrange update}
+\end{eqnarray}
+ただし，$\rho>0$は定数である．
+ADMMについてはBoydらによる解説\cite{Boyd11}が詳しい．
+また，Webサイト
+``\href{http://stanford.edu/~boyd/papers/admm/}{MATLAB scripts for alternating direction method of multipliers}''では，
+BPやLASSOを含むいくつかの問題について，
+ADMMから導出された解法をMATLABで実装した例が紹介されている．
+
+
+\paragraph{スパース解法の導出例}
+
+ADMMから反復計算のアルゴリズムを導出する手順はおよそ次のとおりである．
+\begin{enumerate}
+\item 目的の最小化問題を式(\ref{eq:ADMM objective})の形式に書き換える．
+\item ADMMの反復式(\ref{eq:ADMM x update})と(\ref{eq:ADMM z update})の最小化問題が解けることを確認する．
+\end{enumerate}
+
+%ADMMからスパース解法を導出してみよう．
+式(\ref{eq:l1 min})のBPを例に，ADMMからスパース解法を導出してみよう．
+まず，式(\ref{eq:l1 min})のBPを次のように書き換える．
+\begin{equation}
+ \min_{(\vec x,\vec z)} f(\vec x)+\|\vec z\|_1\quad\mbox{ subject to }\quad\vec x=\vec z
+\label{eq:BP in ADMM form}
+\end{equation}
+すなわち，式(\ref{eq:ADMM objective})を以下のように設定したものと解釈できる．
+\begin{eqnarray}
+f(\vec x)&=&\iota_C(\vec x)=\left\{
+\begin{array}{cl}
+0 & \mbox{if $\vec x\in C=\{\vec x\,|\, \mtr A\vec x=\vec b\}$}\\
+\infty & \mbox{otherwise}
+\end{array}
+\right.\label{eq:indicator y=Ax}\\
+g(\vec z)&=&\|\vec z\|_1\label{eq:g for BP}\\
+\mtr F&=&\mtr I,\quad \mtr G=-\mtr I,\quad \vec c=\vec 0\label{eq:ADMM constants for BP}
+\end{eqnarray}
+ここで，$\iota_C(\vec x)$は{\bf 指示関数}（indicator function）と呼ばれ，
+$\vec x$が集合$C$に属しているかどうかを判定する関数である．
+式(\ref{eq:indicator y=Ax})のように集合を定義すれば，
+式(\ref{eq:BP in ADMM form})を最小にできる$\vec x$は
+$\vec b=\mtr A\vec x$を満たす$\vec x$に限定される．
+%式(\ref{eq:indicator y=Ax})，(\ref{eq:g for BP})，(\ref{eq:ADMM constants for BP})を
+この解釈と式(\ref{eq:ADMM x update})，(\ref{eq:ADMM z update})，(\ref{eq:ADMM Lagrange update})から，
+次のような反復式が得られる．
+\begin{eqnarray}
+\vec x^{(k+1)} &\defas & \arg\min_{\vec x} \iota_C(\vec x)+\frac{\rho}{2}\|\vec x-(\vec z^{(k)}-\vec y^{(k)})\|_2^2\label{eq:proximity y=Ax}\\
+ &=& (\mtr I-\mtr A^\top(\mtr A\mtr A^\top)^{-1}\mtr A)(\vec z^{(k)}-\vec y^{(k)})+\mtr A^\top(\mtr A\mtr A^\top)^{-1}\vec b\label{eq:projection onto y=Ax}\\
+\vec z^{(k+1)} & \defas & \arg\min_{\vec z} \|\vec z\|_1+\frac{\rho}{2}\|(\vec x^{(k+1)}+\vec y^{(k)})-\vec z\|_2^2\label{eq:proximity l1 for BP}\\
+&=&\soft(\vec x^{(k+1)}+\vec y^{(k)},\frac{1}{\rho})\label{eq:soft l1 for BP}\\
+\vec y^{(k+1)}& \defas & \vec y^{(k)}+\vec x^{(k+1)}-\vec z^{(k+1)}
+\end{eqnarray}
+式(\ref{eq:proximity y=Ax})は，
+「$\mtr A\vec x=\vec b$を満たす$\vec x$のうち，
+点$(\vec z^{(k)}-\vec y^{(k)})$から$\ell_2$距離が最も近い点を$\vec x^{(k+1)}$とする」
+という意味である．
+つまり，式(\ref{eq:projection onto y=Ax})のように，
+点$(\vec z^{(k)}-\vec y^{(k)})$からの$\ell_2$最小長さ解が$\vec x^{(k+1)}$となる（演習問題\ref{ex:projection onto y=Ax}）．
+また，式(\ref{eq:proximity l1 for BP})は式(\ref{eq:proximity l1})と同様の最小化問題であり，
+$(\vec x^{(k+1)}+\vec y^{(k)})$の成分を$\lambda=1/\rho$だけ縮めるソフト閾値処理で最小解$\vec z^{(k+1)}$が得られる．
+この例では，ADMMの反復式(\ref{eq:ADMM x update})と(\ref{eq:ADMM z update})がそれぞれ
+$\ell_2$最小長さ解とソフト閾値処理で解ける問題になった．
+
+
+一般に，凸関数$f(\vec x)$と定数$\rho>0$が与えられたとき，
+点$\vec v$からの$\ell_2$距離で正則化\footnote{Moreau-Yosida regularizationと呼ばれる．}
+した最小化問題の解を表す関数
+\begin{equation}
+ \prox_{f,\rho}(\vec v)\defas\arg\min_{\vec x}\; f(\vec x)+\frac{\rho}{2}\|\vec x-\vec v\|_2^2
+\end{equation}
+を{\bf 近接写像}（proximity operator）と呼ぶ．
+例えばBPの場合，式(\ref{eq:proximity y=Ax})と(\ref{eq:proximity l1 for BP})は近接写像である．
+\begin{eqnarray}
+\vec x^{(k+1)} &=& \prox_{\iota_C,\rho}(\vec z^{(k)}-\vec y^{(k)})\\
+\vec z^{(k+1)} &=& \prox_{\|\cdot\|_1,\rho}(\vec x^{(k+1)}+\vec y^{(k)})
+\end{eqnarray}
+ADMMからのアルゴリズムの導出では，反復式(\ref{eq:ADMM x update})と(\ref{eq:ADMM z update})が
+計算しやすい近接写像になることが重要となる．
+
+
+
+
+
+\Section{まとめ：結局どの問題をどう解けばよいのか}
+
+解が極めてスパースであるならば，
+その非ゼロ成分を次々と特定する貪欲法がお勧めである．
+実際，凸緩和の解法よりもずっと少ない手間数で解が得られることが多い．
+しかし，途中で台の選択に失敗するとそこで解への収束が破綻する．
+そのような失敗は基底$\mtr A$の性質に依存する．
+
+一方，凸緩和の解法は，貪欲法よりも計算時間を要することが多いが，
+任意の初期値からスパース解へ収束する反復計算になっているので，
+極端にスパースではないスパース解を求める応用問題に向いている．
+実際，画像や音はフーリエまたはウェーブレット基底で表現すると，
+ある程度のスパース性が現れる．
+また，貪欲法で失敗しやすい基底$\mtr A$や低次元の$\vec b$に対しても，
+凸緩和の解法で適切なスパース解が得られることがある．
+
+スパース解が$\mtr A\vec x=\vec b$を厳密に満たすならばOMPやBPで良いが，
+ノイズの混入を考慮するとBPDN，LASSO，$\ell_1$-LSなどが実用的であろう．
+ただし，凸緩和では定数を利用者が設定する必要がある．
+例えば式(\ref{eq:BPDN})のBPDNでは，$\vec b$が何らかの観測値の場合，
+定数$\delta$をノイズの強さの目安として与えることになる．
+しかし，式(\ref{eq:lasso})の$\tau$や式(\ref{eq:l1ls})の$\lambda$の値の目安を
+具体的に見積もることは簡単ではなく，しばしば手探りで見つける作業を要する．
+
+
+% l2 のproximity
+% l_inf
+
+
+\Section{演習問題}
+\begin{enumerate}
+\item\label{ex:soft thresholding}
+式(\ref{eq:proximity l1})の解が式(\ref{eq:soft thresholding})となることを示せ．\\
+ヒント：例えば，$x_j\geq 0$と$x_j<0$の場合に分けて
+$x_j$の2次関数を平方完成する．
+最小となる$x_j$は定数$\lambda$と$b_j$の大小関係に依存する．
+
+\item\label{ex:IST derivation}
+ISTを導出せよ．\\
+ヒント：式(\ref{eq:IST derivation})は，
+$F(\vec x,\vec x^{(k)})$が最小になるような$\vec x$を求める問題なので，
+$F(\vec x,\vec x^{(k)})$を定数倍しても解は変わらない．また，
+$\vec x^{(k)}$，$\mtr A$，$\vec b$のみからなる項を省略または追加しても
+解は変わらない．
+
+\item\label{ex:projection onto y=Ax}
+式(\ref{eq:projection onto y=Ax})を導出せよ．\\
+ヒント：点$\vec p=\vec z^{(k)}-\vec y^{(k)}$からの$\ell_2$最小長さ解を求める問題である．
+$\ell_2$最小長さ解の導出と同様にラグランジュ乗数法を適用する．
+\[
+ L(\vec x,\vec\lambda)=\frac{1}{2}(\vec x-\vec p)^\top(\vec x-\vec p)+\vec\lambda^\top(\vec b-\mtr A\vec x)
+\]
+
+
+\item
+凸集合$C=\{\vec x\;|\;\|\vec x-\vec p\|_2\leq\varepsilon\}$の
+指示関数を$\iota_C(\vec x)$とする．
+近接写像が
+\begin{equation}
+ \prox_{\iota_C,\rho}(\vec v)\defas\arg\min_{\vec x}\; \iota_C(\vec x)+\frac{\rho}{2}\|\vec x-\vec v\|_2^2
+=
+\left\{\begin{array}{cl}
+\vec v & \mbox{if $\vec v\in C$}\\
+\vec p+\varepsilon\frac{\vec v-\vec p}{\|\vec v-\vec p\|_2} & \mbox{otherwise}
+\end{array}
+\right.
+\end{equation}
+と書けることを図説せよ．
+
+
+\item
+ISTをMATLAB関数として実装せよ．
+\lstset{xleftmargin=4ex,xrightmargin=4ex}
+\begin{lstlisting}
+function x = IST(b, A, lambda, L, delta)
+\end{lstlisting}
+この行から書き始め，{\tt IST.m}として保存せよ．\\
+ヒント：
+MATLABでは，ソフト閾値処理の関数を1行で書ける．
+\begin{lstlisting}
+soft = @(x, th) sign(x) .* max(abs(x) - th, 0);
+\end{lstlisting}
+
+
+\item \label{ex:random sparse convex solution}
+$\mtr A$，$\vec x$，$\vec b$を以下のように生成し，
+$\vec x$を未知として式(\ref{eq:l0 min c})をISTで解け．
+\begin{itemize}
+\item
+$\mtr A$をサイズ$m\times n$のランダム行列とする．
+要素は正規分布から生成する．
+\item
+$\vec x$を$k$スパースなベクトルとし，
+非ゼロ成分は正規分布から生成する．
+\item $\vec b=\mtr A\vec x$とする．
+\end{itemize}
+次に，非ゼロ成分の個数$k$に対するISTの解の誤差を観察せよ．
+すなわち，横軸を$k$，
+縦軸を相対残差$\|\vec b-\mtr A\vec x\|_2/\|\vec b\|_2$として
+グラフを描け．\\
+ヒント：
+以下のコードを試し，ISTで解が得られるかどうか確認せよ．
+\begin{lstlisting}
+m = 100; n = 1000; A = randn(m,n);
+k = 10; S = randperm(n); S = S(1:k);
+x = zeros(n,1); x(S) = randn(k,1);
+b = A * x;
+x_est = IST(b, A, 適当な値lambda, 適当な値L, 1e-7);
+figure, plot(1:n, x, '.', 1:n, x_est, 'o')
+\end{lstlisting}
+このコードを改造して相対残差を観察せよ．
+誤差を統計的に評価するため，反復試行する必要がある．
+なお，指定する$\lambda$と$L$の値によっては，
+ISTの計算が発散することがあるので注意せよ．
+
+\end{enumerate}
+
+
+
+
+
+
+{\footnotesize
+\bibliography{mybib_sparse,mybib_cs}
+}
+

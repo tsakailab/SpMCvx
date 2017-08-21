@@ -1,0 +1,33 @@
+\begin{thebibliography}{1}
+
+\bibitem{JainClusteringReview}
+A.K. Jain, M.~Murty, and P.~Flynn, ``Data clustering: a review,'' ACM Computing
+  Surveys, vol.31, no.3, pp.254--323, 1999.
+
+\bibitem{JainClustering50years}
+A.K. Jain, ``Data clustering: 50 years beyond {K}-means,'' Pattern Recognition
+  Letters, vol.31, no.8, pp.651--666, 2010.
+
+\bibitem{Fiedler73}
+M.~Fiedler, ``Algebraic connectivity of graphs,'' Czechoslovak Mathematical
+  Journal, vol.23, no.2, pp.298--305, 1973.
+
+\bibitem{Hagen92}
+L.~Hagen and A.~Kahng, ``New spectral methods for ratio cut partitioning and
+  clustering,'' IEEE Transactions on Computer-Aided Design, vol.11, no.9,
+  pp.1074--1085, 1992.
+
+\bibitem{Shi00}
+J.~Shi and J.~Malik, ``Normalized cuts and image segmentation,'' IEEE
+  Transactions on Pattern Analysis and Machine Intelligence, vol.22, no.8,
+  pp.888--905, 2000.
+
+\bibitem{Yu03}
+S.X. Yu and J.~Shi, ``Multiclass spectral clustering,'' International
+  Conference on Computer Vision, pp.313--319, 2003.
+
+\bibitem{Luxburg07}
+U.~{Von Luxburg}, ``A tutorial on spectral clustering,'' Statistics and
+  Computing, vol.17, no.4, pp.395--416, 2007.
+
+\end{thebibliography}

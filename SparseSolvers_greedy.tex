@@ -1,0 +1,214 @@
+\input{Common}
+
+\Chapter{スパース解法 ---貪欲法 ---}
+
+
+次のような$\ell_0$最小化問題の解き方を考えよう．
+\begin{equation}
+ \min_{\small\vec x} \|\vec x\|_0\quad\mbox{ subject to }\quad \mtr A\vec x=\vec b.
+\label{eq:l0 min}
+\end{equation}
+
+{\bf 貪欲法}\footnote{欲張り法ともいう．}（greedy algorithm）とは何か？
+おつりを作る作業を思い出そう．
+なるべく少ない枚数のコインで623円をどのように作るか？
+内輪で残額に最も近い額のコインを選ぶことを繰り返せばよい\footnote{%
+用意されているコインが1，5，10，50，100，500円玉ならば必ず最適解が得られる．
+しかし，貪欲法はどんなコインの組合せ問題も解けるわけではない．
+例えば，もし1，6，13円玉の3種類だとしたら，18円を3枚の6円玉で作れるのに，
+貪欲法では1枚の13円玉と5枚の1円玉の計6枚が選ばれる．}．
+
+線形結合$\vec b=x_1\vec a^{(1)}+\cdots+x_n\vec a^{(n)}$を思い出そう．
+基底ベクトル$\vec a^{(j)}$はコインである．
+金額$\vec b$を作るために使うコイン$\vec a^{(j)}$の係数$x_j$だけ非ゼロにする．
+選んだコインを表す非ゼロ係数の番号（添え字）の集合を$T$とする．
+なるべく少ない枚数のコインで金額$\vec b$を作ろう．
+残額$\vec r=\vec b-\mtr A\vec x$に最も似ているコイン$\vec a^{(s)}$を選び，
+%残額$\vec r=\vec b-\mtr A_T\vec x_T$に最も似ているコイン$\vec a^{(s)}$を選び，
+残額が最も減るように非ゼロ成分の$\vec x_{T\cup \{s\}}$を最小二乗法で更新すればよい．
+
+
+\Section{OMP}
+
+{\bf OMP}（orthogonal matching pursuit）\cite{Pati93,Tropp04,Tropp07}は，
+アルゴリズム\ref{alg:OMP}のようにスパース解を求める貪欲法である．
+
+\begin{algorithm}[h]
+\caption{Orthogonal matching pursuit: $\vec x = \mbox{\sc OMP}(\vec b,\mtr A,k,\delta)$}
+\label{alg:OMP}
+\begin{algorithmic}[1]
+\REQUIRE
+$\vec b$: $m$次元ベクトル，$\mtr A$: $m\times n$行列，
+$k$: 非ゼロ成分の最大個数，$\delta$: 許容誤差;
+\ENSURE $\vec x$: $k$スパースな$n$次元ベクトル;
+\STATE
+$\vec x \subs \vec 0\in\mathbb{R}^{n}$;
+\STATE
+台の初期値を$T\subs\emptyset$（空集合）とする;
+\STATE
+$\vec r\subs\vec b$;
+\WHILE{$|T|\leq k$ かつ $\|\vec r\|_2/\|\vec b\|_2>\delta$}
+\STATE
+各基底と残差の類似度$\vec c\subs\mtr A^\top\vec r$を計算する;
+\label{step:similarity}
+\STATE
+最も類似している列の番号$s\subs\arg\max_{j} |c_j|$を見つける;
+\label{step:find max}
+\STATE
+$T\subs T\cup\{s\}$として$s$を台に加える;
+\label{step:union T}
+\STATE
+台$T$で示された非ゼロ成分を
+$\displaystyle\vec x_T\subs\arg\min_{\vec z\in\mathbb{R}^{|T|}}\|\vec b-\mtr A_T\vec z\|_2^2$のように最小二乗解で更新する．
+\label{step:lsq T}
+\STATE
+残差$\vec r\subs\vec b-\mtr A\vec x$を計算する;
+%残差$\vec r\subs\vec b-\mtr A_T\vec x_T$を計算する;
+\ENDWHILE
+\end{algorithmic}
+\end{algorithm}
+%Here, $\mtr A_T$ is the $m\times |T|$ matrix composed of the columns
+%indicated by $T$.
+
+貪欲法は，ゼロベクトルを解$\vec x$の初期値とし，
+残差が十分に小さくなる（$\mtr A\vec x$が十分に$\vec b$の近似になる）まで
+$\vec x$の非ゼロ成分を次々と見つけるアルゴリズムになっている．
+よって，非ゼロ成分の個数程度の反復回数で解が得られる．
+各反復において最も計算量が大きい手続きは，
+ステップ\ref{step:similarity}の類似度計算（$\mathcal{O}(mn)$）と，
+ステップ\ref{step:lsq T}の
+最小二乗解$\vec x_T$の計算である\footnote{%
+この最小二乗解は$\vec x_T=(\mtr A_T^\top\mtr A_T)^{-1}\mtr A_T\vec b$と書ける．
+これを右から順に直接に計算する方法の他に，
+$\mtr A_T$の特異値分解を利用する方法，
+連立方程式$\mtr A_T^\top\mtr A_T\vec x_T=\mtr A_T\vec b$を共役勾配法で解く方法などがある．}．
+最小二乗法の手間数は$\mathcal{O}(m|T|^2)$なので，$k^2\ll n$ならば
+OMPの手間数は$\mathcal{O}(mk^3)$と見積もられる．
+
+
+%優決定問題
+
+
+
+\Section{演習問題}
+\begin{enumerate}
+\item
+アルゴリズム\ref{alg:OMP}のOMPをMATLAB関数として実装せよ．
+\lstset{xleftmargin=4ex,xrightmargin=4ex}
+\begin{lstlisting}
+function x = OMP(b, A, k, delta)
+\end{lstlisting}
+この行から書き始め，{\tt OMP.m}として保存せよ．\\
+ヒント：
+MATLABでは，ステップ\ref{step:find max}，\ref{step:union T}，
+\ref{step:lsq T}は次のように書ける．
+\begin{lstlisting}
+[maxc, s] = max([abs(c)]);
+T = [T, s];
+x(T) = A(:,T) \ b;
+\end{lstlisting}
+% T = union(T, s);
+
+\item \label{ex:random sparse solution}
+$\mtr A$，$\vec x$，$\vec b$を以下のように生成し，
+$\vec x$を未知として式(\ref{eq:l0 min})をOMPで解け．
+\begin{itemize}
+\item
+$\mtr A$をサイズ$m\times n$のランダム行列とする．
+要素は正規分布から生成する．
+\item
+$\vec x$を$k$スパースなベクトルとし，
+非ゼロ成分は正規分布から生成する．
+\item $\vec b=\mtr A\vec x$とする．
+\end{itemize}
+次に，非ゼロ成分の個数$k$に対するOMPの解の誤差を観察せよ．
+すなわち，横軸を$k$，
+縦軸を相対残差$\|\vec b-\mtr A\vec x\|_2/\|\vec b\|_2$として
+グラフを描け．\\
+ヒント：
+以下のコードを試し，OMPで解が得られるかどうか確認せよ．
+\begin{lstlisting}
+m = 100; n = 1000; A = randn(m,n);
+k = 10; S = randperm(n); S = S(1:k);
+x = zeros(n,1); x(S) = randn(k,1);
+b = A * x;
+x_est = OMP(b, A, k, 1e-7);
+figure, plot(1:n, x, '.', 1:n, x_est, 'o');
+\end{lstlisting}
+このコードを改造して相対残差を観察せよ．
+誤差を統計的に評価するため，反復試行する必要がある．
+
+\item\yeeks
+\href{http://perception.csl.illinois.edu/recognition/Home.html}{スパース表現による顔認識}\cite{Wright09}\\
+\href{http://www.columbia.edu/~jw2966/Wright09-PAMI.pdf}{J. Wright, A. Y. Yang, A. Ganesh, S. S. Sastry, and Y. Ma, ``Robust face recognition via sparse representation,'' IEEE Transactions on Pattern Analysis and Machine Intelligence, vol. 31, no. 2, pp. 210--227, 2009.}\\
+について調査し，下記の課題に取り組むこと．
+\begin{itemize}
+\item ``Sparse Representation-based Classification (SRC)''
+と呼ばれる手法の概要を述べよ．
+\item 
+\href{http://vision.ucsd.edu/~leekc/ExtYaleDatabase/ExtYaleB.html}{The Extended Yale Face Database B}\\
+（http://vision.ucsd.edu/~leekc/ExtYaleDatabase/ExtYaleB.html）
+をランダム射影したものを用いて，
+SRCによる顔認識を実行せよ．
+\href{https://drive.google.com/file/d/0Bx4bEpaTSFcgRm15NVlua1pOTWM}{YaleB\_Ext\_Cropped\_192x168\_all.mat}は，
+顔を切り出した画像の画素値を並べた行列をMATLABファイルにしたものである．
+
+% (see the code below),
+\item (a) ランダム射影後の次元数，(b)ノイズの強さに関して
+顔認識の正答率を評価せよ．
+\end{itemize}
+ヒント：
+SRCによる顔認識を実行するコードを以下に示す．
+\begin{lstlisting}
+% Yale B cropped face imagesを読み込む．
+data = load('YaleB_Ext_Cropped_192x168_all.mat');
+[n, m] = size(data.fea);
+
+% 訓練データとテストデータに分ける．
+ntest = round(n/2); ntrain = n - ntest;
+jtest = randperm(n, ntest); jtrain = setdiff(1:n, jtest);
+idtest = data.gnd(jtest); idtrain = data.gnd(jtrain);
+idmax = max(idtrain);
+
+% データ行列
+D = double(data.fea(:,:)');
+
+% ランダム射影（192*168次元から200次元へ）
+D = randn(200, 192*168) * D;
+
+% 列ベクトルが正規化された訓練データ行列
+A = D(:, jtrain);
+A = A * spdiags(1./sqrt(sum(A.^2))', 0, ntrain, ntrain);
+
+%for j = 1:ntest,
+j = 700;
+    b = D(:, jtest(j)); % + 100*rand(size(y)); % ノイズを印加する場合
+    fprintf('testing id = %d\n', idtest(j));
+    x = OMP(b, A, 100, 1e-1);
+    fprintf('nnz = %d\n', nnz(x));
+
+    % 残差の計算
+    residual = zeros(idmax,1);
+    for id = 1:idmax,
+        b_reconst = A(:,idtrain == id) * x(idtrain == id);
+        residual(id) = norm(b - b_reconst);
+    end
+    figure(11), bar(residual);
+
+    % 識別
+    [~, id_est] = min(residual);
+    fprintf('estimated id = %d\n', id_est);
+%end
+\end{lstlisting}
+
+
+
+\end{enumerate}
+
+
+
+
+{\footnotesize
+\bibliography{mybib_sparse,mybib_cs}
+}
+

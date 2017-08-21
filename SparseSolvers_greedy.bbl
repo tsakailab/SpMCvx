@@ -1,0 +1,18 @@
+\begin{thebibliography}{1}
+
+\bibitem{Pati93}
+Y.C. Pati, R.~Rezaiifar, Y.C.P.R. Rezaiifar, and P.S. Krishnaprasad,
+  ``Orthogonal matching pursuit: Recursive function approximation with
+  applications to wavelet decomposition,'' Proceedings of the 27 th Annual
+  Asilomar Conference on Signals, Systems, and Computers, pp.40--44, 1993.
+
+\bibitem{Tropp04}
+J.A. Trop, ``Greed is good: Algorithmic results for sparse approximation,''
+  IEEE Trans. Information Theory, vol.50, no.10, pp.2231--2242, 2004.
+
+\bibitem{Tropp07}
+J.A. Tropp, Anna, and C.~Gilbert, ``Signal recovery from random measurements
+  via orthogonal matching pursuit,'' IEEE Trans. Information Theory, vol.53,
+  no.12, pp.4655--4666, 2007.
+
+\end{thebibliography}

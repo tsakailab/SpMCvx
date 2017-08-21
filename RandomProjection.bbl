@@ -1,0 +1,31 @@
+\begin{thebibliography}{1}
+
+\bibitem{Vempala04}
+S.S. Vempala, The Random Projection Method, Series in Discrete Mathematics and
+  Theoretical Computer Science, vol.65, American Mathematical Society, 2004.
+
+\bibitem{Sakai09ERPj}
+T.~Sakai, ``An efficient algorithm of random projection by spectrum spreading
+  and circular convolution (in {J}apanese),'' The 24th SIP Symposium
+  Proceedings, pp.507--512, 2009.
+
+\bibitem{tsakaiAPR11}
+T.~Sakai and A.~Imiya, ``Practical algorithms of spectral clustering: Toward
+  large-scale vision-based motion analysis,'' in Machine Learning for
+  Vision-Based Motion Analysis, Advances in Pattern Recognition, ch.~1,
+  pp.3--26, Springer, 2011.
+
+\bibitem{JL84}
+W.~Johnson and J.~Lindenstrauss, ``Extensions of {L}ipschitz maps into a
+  {H}ilbert space,'' Contemporary Mathematics, vol.26, pp.189--206, 1984.
+
+\bibitem{Achlioptas03}
+D.~Achlioptas, ``Database-friendly random projections: Johnson-lindenstrauss
+  with binary coins,'' Journal of Computer and System Sciences, vol.66,
+  pp.671--687, 2003.
+
+\bibitem{Dasgupta99}
+S.~Dasgupta and A.~Gupta, ``An elementary proof of the
+  {J}ohnson-{L}indenstrauss lemma,'' tech. rep., UC Berkeley, 1999.
+
+\end{thebibliography}

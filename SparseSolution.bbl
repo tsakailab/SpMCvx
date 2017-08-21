@@ -1,0 +1,17 @@
+\begin{thebibliography}{1}
+
+\bibitem{JL84}
+W.~Johnson and J.~Lindenstrauss, ``Extensions of {L}ipschitz maps into a
+  {H}ilbert space,'' Contemporary Mathematics, vol.26, pp.189--206, 1984.
+
+\bibitem{Candes06b}
+E.J. Cand\`es, J.~Romberg, and T.~Tao, ``Stable signal recovery from incomplete
+  and inaccurate measurements,'' Comm. on Pure and Applied Math, vol.59, no.8,
+  pp.1207--1223, 2006.
+
+\bibitem{Candes08RIP}
+E.J. Cand\`es, ``The restricted isometry property and its implications for
+  compressed sensing,'' Comptes Rendus Mathematique, vol.346, no.9-10,
+  pp.589--592, May\ 2008.
+
+\end{thebibliography}

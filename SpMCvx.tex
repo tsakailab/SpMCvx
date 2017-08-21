@@ -1,0 +1,156 @@
+%
+% platex SpMCvx.tex
+% jbibtex [each included files]
+% platex again
+%
+%\documentclass[a4paper,12pt,oneside]{jbook}
+\documentclass[a4paper,12pt]{jbook}
+
+% my own definitions
+\usepackage{mytext}
+\usepackage{mydef}
+
+
+\newcommand{\chapmark}{}
+% 番号なしの見出し
+\newcommand{\Chapter}[1]{\chapter*{#1}
+\renewcommand{\chapmark}{#1}
+\addcontentsline{toc}{chapter}{\prechaptername #1}}
+\newcommand{\Section}[1]{\section*{#1}
+\addcontentsline{toc}{section}{#1}}
+\newcommand{\Subsection}[1]{\subsection*{#1}
+\addcontentsline{toc}{subsection}{#1}}
+\newcommand{\Subsubsection}[1]{\subsubsection*{#1}
+\addcontentsline{toc}{subsubsubsection}{#1}}
+
+% chapter毎に参考文献
+\usepackage{chapterbib}
+
+% include figures
+\usepackage[dvipdfmx]{color}
+\usepackage[dvipdfmx]{graphicx}
+\usepackage{mediabb}
+
+% math symbols, theorems
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+% header and footer
+\usepackage{fancyhdr}
+
+% box enclosure
+%\usepackage{eclbkbox}
+\usepackage{listings,jlisting}
+
+%\usepackage{lastpage}
+
+% force to put figure here
+\usepackage{here}
+
+% strikeout
+\usepackage{ulem}
+
+% date
+\usepackage{datetime}
+\newcommand{\numtoday}{\the\year\twodigit\month\twodigit\day}
+
+
+%\iffalse
+\usepackage{algorithm}
+\usepackage{algorithmic}
+% アルゴリズム環境の設定 (using algorithmic and algorithm)
+\floatname{algorithm}{アルゴリズム}
+\renewcommand{\algorithmicrequire}{\textbf{入力：}}
+\renewcommand{\algorithmicensure}{\textbf{出力：}}
+\algsetup{linenosize=\normalsize,linenodelimiter=\ }
+\renewcommand{\algorithmiccomment}[1]{// #1}
+%\fi
+
+
+%\lhead{情報システム論II}
+%\chead{上の真ん中}
+%\rhead{\rightmark}
+%\rfoot{Ver. \numtoday}
+%\rfoot{\copyright 2015 Tomoya Sakai}
+%\rfoot{\ifthenelse{\value{page}=\pageref{LastPage}}{(to be continued ...)}{}}
+\fancyfoot[RO]{\copyright 2015 Tomoya Sakai}
+\fancyfoot[C]{}
+\fancyhead[RO,LE]{\thepage}
+\fancyhead[RE]{酒井研 基礎勉強会}
+\fancyhead[LO]{\chapmark}
+
+
+
+% 数式定義
+\def\ds{\displaystyle}
+\def\refeq#1{(\ref{eq:#1})}
+\def\vec#1{\mbox{\boldmath $#1$}}
+%\def\vec#1{{\rm\bf #1}}
+\def\mtr#1{\mbox{\boldmath $#1$}}
+%\def\mtr#1{{\rm\bf #1}}
+\def\tten#1{{\!\times\!10^{#1}}}
+\def\defas{:=}
+\def\subs{:=}
+\def\smatrix#1#2#3{\mbox{#1$\bmatrix{#2}{#3}$}}
+\def\spark{\mathop{\textrm{spark}}\nolimits}
+\def\soft{\mathop{\textrm{soft}}\nolimits}
+\def\prox{\mathop{\textrm{prox}}\nolimits}
+
+
+%% MATLAB code
+\lstset{language=Matlab}
+\lstset{basicstyle={\tt},identifierstyle={\bfseries},keywordstyle={\bfseries}}
+\lstset{tabsize=2,showstringspaces=false}
+\lstset{commentstyle={\color[rgb]{0,0.5,0}}}
+\lstset{flexiblecolumns=true}
+\lstset{classoffset=1,breaklines=true,morecomment=[l]{//}}
+%\lstset{columns=[l]{fullflexible}}
+%\lstset{numbers=left,stepnumber=1,numberstyle={\scriptsize},numbersep=4ex}
+\lstset{frame=tBlR,rulecolor={\color[gray]{0.75}},rulesepcolor={\color[gray]{0.75}}}
+\lstset{framesep=2ex}
+\lstset{xleftmargin=8ex,xrightmargin=16ex}
+%\lstset{backgroundcolor={\color[rgb]{1,1,0.95}}}
+
+\def\yeeks{${\!\!\!\!^*\;\;}$}
+
+
+% link url
+\AtBeginDvi{\special{pdf:tounicode 90ms-RKSJ-UCS2}}
+\usepackage[bookmarks=false,urlcolor=blue,colorlinks,linkcolor=blue,dvipdfmx,%
+%pdftitle={},
+pdfauthor={Tomoya Sakai}%
+]{hyperref}
+
+
+
+\begin{document}
+\pagenumbering{arabic}
+
+\pagestyle{empty}
+
+\vspace*{6cm}
+%% タイトル直書き・・
+\begin{center}
+{%\spaceskip=0.25em
+\Large\bf 酒井研 基礎勉強会 テキスト}\\
+{\bf スパースモデリングと凸最適化}\\
+\vspace{2\baselineskip}
+酒井智弥\\
+\today
+\end{center}
+
+\pagestyle{empty}
+\tableofcontents
+
+\pagestyle{fancy}
+
+\include{Preliminaries}
+\include{RandomProjection}
+\include{UnderdeterminedProblem}
+\include{SparseSolution}
+\include{SparseSolvers_greedy}
+\include{SparseSolvers_relax}
+\include{Ncut}
+\include{biClustering}
+
+\end{document}
